@@ -1,3 +1,8 @@
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const minPriceInput = document.getElementById('minPrice');
     const maxPriceInput = document.getElementById('maxPrice');
@@ -97,8 +102,43 @@ function addNewImageField(input) {
     }
 }
 
+// modalHandler.js
 
-// Property description text
+function setupModalToggle(signInButtonId, signUpModalId, forgotPasswordModalId, addPropertyModalId) {
+    // Get references to the sign-in button and the modals
+    const signInButton = document.getElementById(signInButtonId);
+    const signUpModal = document.getElementById(signUpModalId);
+    const forgotPasswordModal = document.getElementById(forgotPasswordModalId);
+    const addPropertyModal = document.getElementById(addPropertyModalId);
+
+    // Function to hide the sign-in button
+    function hideSignInButton() {
+        signInButton.style.display = 'none';
+    }
+
+    // Function to show the sign-in button
+    function showSignInButton() {
+        signInButton.style.display = 'block';
+    }
+
+    // Add event listeners to the sign-up modal
+    signUpModal.addEventListener('show.bs.modal', hideSignInButton);
+    signUpModal.addEventListener('hidden.bs.modal', showSignInButton);
+
+    // Add event listeners to the forgot password modal
+    forgotPasswordModal.addEventListener('show.bs.modal', hideSignInButton);
+    forgotPasswordModal.addEventListener('hidden.bs.modal', showSignInButton);
+
+    // Add event listeners to the add property modal
+    addPropertyModal.addEventListener('show.bs.modal', hideSignInButton);
+    addPropertyModal.addEventListener('hidden.bs.modal', showSignInButton);
+}
+
+// Call the function to set up the modal toggle
+document.addEventListener('DOMContentLoaded', function () {
+    setupModalToggle('signInButton', 'signUpModal', 'forgotPasswordModal', 'addPropertyModal');
+});
+
 function readMore() {
     var dots = document.getElementById("dots");
     var moreText = document.getElementById("more");
@@ -267,23 +307,4 @@ document.getElementById('evaluateButton').addEventListener('click', function(eve
 document.getElementById('payButton').addEventListener('click', function() {
     window.location.href = 'profile.html'; // Update this URL to your payment page
 });
-
-
-/**
- * password checking while signing up
- */
-function validateForm() {
-    var password = document.getElementById("signUpPassword").value;
-    var confirmPassword = document.getElementById("confirmPassword").value;
-
-    if (password !== confirmPassword) {
-        alert("Passwords do not match!");
-        return false; // Prevent form submission
-    }
-    return true; // Allow form submission
-}
-
-
-
-
 

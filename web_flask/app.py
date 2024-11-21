@@ -10,6 +10,8 @@ from home import app_views_home
 from wishlist import app_views_sell
 from wishlist import app_views_rent
 from auth import app_views_message
+from property import app_views_property
+from action import app_views_action
 from flask_cors import CORS
 from flask_login import LoginManager
 from models import storage
@@ -33,6 +35,8 @@ app.register_blueprint(app_views_rent)
 app.register_blueprint(app_views_sell)
 app.register_blueprint(app_views_message)
 app.register_blueprint(app_views_home)
+app.register_blueprint(app_views_property)
+app.register_blueprint(app_views_action)
 
 login_manager = LoginManager()
 login_manager.init_app(app)

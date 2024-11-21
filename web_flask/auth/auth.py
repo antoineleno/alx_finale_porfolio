@@ -620,8 +620,9 @@ def manage_advertisement():
                     agent_image_extension = os.path.splitext(
                         agent_image.filename)[1]
                     agent_image_filename = os.path.join(
-                        "auth/static/img", f"agent_{i}{
-                            agent_image_extension}")
+                "auth/static/img", f"agent_{i}{agent_image_extension}"
+                )
+
                     agent_image.save(agent_image_filename)
                     new_agent = Agent()
                     print(agent_name)
