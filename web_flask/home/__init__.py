@@ -13,6 +13,6 @@ sys.path.append(parent_path)
 app_views_home = Blueprint('app_view_home', __name__,
                            url_prefix="/roofmarket",
                          template_folder='templates',
-                         static_folder='static')
+                         static_folder='../auth/static')
 
 from home.home import *
