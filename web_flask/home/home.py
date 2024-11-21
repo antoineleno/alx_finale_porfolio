@@ -10,7 +10,6 @@ from models.property_image import Property_image
 
 
 
-
 @app_views_home.route("/")
 def home():
 

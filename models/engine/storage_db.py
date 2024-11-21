@@ -3,18 +3,22 @@
 
 import os
 import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models.agent import Agent
 from models.user import User
 from models.property import Property
-from models.transaction import Transaction
+from models.transaction import Transaction, Subcription
 from models.whishlist import Whishlist
 from models.review import Review
 from models.property_image import Property_image
-from models.message import Message
+from models.message import Message, Room, RoomParticipants
+base_dir = os.path.dirname(__file__)
+parent_dir = os.path.join(base_dir, '..', '..')
+sys_path = os.path.abspath(parent_dir)
+
+sys.path.append(sys_path)
 
 
 class DBStorage:
@@ -28,38 +32,12 @@ class DBStorage:
         """Contructor method
         """
         env = os.getenv("env")
-
+        url = "roofmarket_user:roofmarket_pwd@localhost/roofmarket_db"
         self.__engine = create_engine(
-                    'mysql+mysqldb://roofmarket_user:roofmarket_pwd@localhost/roofmarket_db')
+                    'mysql+mysqldb://' + url, pool_pre_ping=True)
 
         if env == "test":
             Base.metadata.drop_all(self.__engine)
-    
-    
-    def property_objs(self, per_page, offset, property_type=None, country=None, city=None, max_price=None, min_price=None, listing_type=None):
-        """ Returns the properties needed to be listed in one page"""
-
-        if property_type:
-            if country and city and max_price and min_price:
-                return self.__session.query(Property).filter(Property.property_type == property_type, Property.country == country, Property.price <= max_price, Property.price >= min_price).limit(per_page).offset(offset)
-            return self.__session.query(Property).filter(Property.property_type == property_type).limit(per_page).offset(offset)
-        elif listing_type:
-            return self.__session.query(Property).filter(Property.listing_type == listing_type).limit(per_page).offset(offset)
-        return self.__session.query(Property).limit(per_page).offset(offset)
-
-
-
-    def count(self, classe, property_type=None, country=None, city=None, max_price=None, min_price=None, listing_type=None):
-        """Counts the number of rows or objects in a given table sometimes with property_type given for properties"""
-    
-        if property_type:
-            if country and city and max_price and min_price:
-                return self.__session.query(classe).filter(classe.property_type == property_type, classe.country == country, classe.price <= max_price, classe.price >= min_price).count()
-            return self.__session.query(classe).filter(classe.property_type == property_type).count()
-        elif listing_type:
-            return self.__session.query(classe).filter(classe.listing_type == listing_type).count()
-        return self.__session.query(classe).count()
-
 
     def all(self, cls=None):
         """all to retrieve all records from DB
@@ -71,15 +49,16 @@ class DBStorage:
             Dict: All records from a database
         """
         allclasses = {"User": User,
-                      "State": Agent,
-                      "City": Property,
-                      "Amenity": Transaction,
-                      "Place": Whishlist,
+                      "Agent": Agent,
+                      "Property": Property,
+                      "Transaction": Transaction,
+                      "Subcription": Subcription,
+                      "Whishlist": Whishlist,
                       "Review": Review,
                       "Property_image": Property_image,
-                      "Message": Message
-                      }
-
+                      "Message": Message,
+                      "Room": Room,
+                      "RoomParticipants": RoomParticipants}
         obj_result = {}
         cls = cls if not isinstance(cls, str) else allclasses.get(cls)
         if cls is None:
@@ -114,6 +93,114 @@ class DBStorage:
         """
         if obj:
             self.__session.delete(obj)
+            self.__session.commit()
+
+    def reload(self):
+        """create all tables in the database
+        """
+        Base.metadata.create_all(self.__engine)
+        factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        self.__session = scoped_session(factory)()
+
+    def close(self):
+        """close session
+        """
+        self.__session.close()
+
+    def get_object(self, cls, sign=None, all=None, order_by=None,
+                   limit=None,
+                   count=False, **kwargs):
+        """
+        Get all objects or only one object based on filters.
+        Optionally count the results.
+
+        Args:
+            cls: The model class to query.
+            sign: The comparison operator for filtering.
+            all: If not None, fetches all matching objects.
+            order_by: A tuple (column, direction) for sorting
+                (e.g., (cls.created_at, 'desc')).
+            limit: An integer specifying the maximum number
+                of results to return.
+            count: If True, returns the count of results based on the filters.
+            **kwargs: Key-value pairs for filtering.
+
+        Returns:
+            A single object if `all` is None, otherwise a list of objects.
+            If `count` is True, returns the count of objects.
+        """
+        if sign is None:
+            sign = '=='
+
+        query = self.__session.query(cls)
+
+        operators = {
+            '==': lambda key, value: key == value,
+            '!=': lambda key, value: key != value,
+            '<': lambda key, value: key < value,
+            '<=': lambda key, value: key <= value,
+            '>': lambda key, value: key > value,
+            '>=': lambda key, value: key >= value
+        }
+
+        if kwargs:
+            for key, value in kwargs.items():
+                if sign in operators:
+                    query = query.filter(operators[sign](getattr(cls, key),
+                                                         value))
+                else:
+                    raise ValueError(f"Invalid comparison operator: {sign}")
+        if count:
+            if (
+                "room_id" in kwargs and
+                "user_id" in kwargs and
+                "read_status" in kwargs
+            ):
+                query = self.__session.query(cls).filter(
+                    cls.room_id == kwargs.get("room_id"),
+                    cls.user_id != kwargs.get("user_id"),
+                    cls.read_status == False
+                )
+
+                return query.count()
+        if order_by:
+            column, direction = order_by
+            if direction.lower() == 'desc':
+                query = query.order_by(column.desc())
+            elif direction.lower() == 'asc':
+                query = query.order_by(column)
+            else:
+                raise ValueError("Invalid direction for order_by")
+
+        if limit is not None:
+            query = query.limit(limit)
+        if all is not None:
+            return query.all()
+        return query.first()
+
+
+    def property_objs(self, per_page, offset, property_type=None, country=None, city=None, max_price=None, min_price=None, listing_type=None):
+        """ Returns the properties needed to be listed in one page"""
+
+        if property_type:
+            if country and city and max_price and min_price:
+                return self.__session.query(Property).filter(Property.property_type == property_type, Property.country == country, Property.price <= max_price, Property.price >= min_price).limit(per_page).offset(offset)
+            return self.__session.query(Property).filter(Property.property_type == property_type).limit(per_page).offset(offset)
+        elif listing_type:
+            return self.__session.query(Property).filter(Property.listing_type == listing_type).limit(per_page).offset(offset)
+        return self.__session.query(Property).limit(per_page).offset(offset)
+
+
+    def count(self, classe, property_type=None, country=None, city=None, max_price=None, min_price=None, listing_type=None):
+        """Counts the number of rows or objects in a given table sometimes with property_type given for properties"""
+    
+        if property_type:
+            if country and city and max_price and min_price:
+                return self.__session.query(classe).filter(classe.property_type == property_type, classe.country == country, classe.price <= max_price, classe.price >= min_price).count()
+            return self.__session.query(classe).filter(classe.property_type == property_type).count()
+        elif listing_type:
+            return self.__session.query(classe).filter(classe.listing_type == listing_type).count()
+        return self.__session.query(classe).count()
 
 
     def get_image(self, property_id, image_type=None):
@@ -122,21 +209,6 @@ class DBStorage:
             return self.__session.query(Property_image).filter(Property_image.property_id == property_id).all()
         
         return self.__session.query(Property_image).filter(Property_image.property_id == property_id,  Property_image.image_type == image_type).first()
-    
-
-    """ def get_countries_with_cities(self):
-        #Returns a dictionary of countries with their respective cities from the Property table.
-        results = self.__session.query(Property.country, Property.city).distinct().all()
-    
-        # Organize results into a dictionary {country: [city1, city2, ...]}
-        countries_with_cities = {}
-        for country, city in results:
-            if country not in countries_with_cities:
-                countries_with_cities[country] = set()  # Use a set to avoid duplicate cities
-            countries_with_cities[country].add(city)
-        
-        # Convert each set of cities to a list for easier JSON serialization if needed
-        return {country: list(cities) for country, cities in countries_with_cities.items()}"""
 
     def get_countries(self):
         # Fetch distinct countries
@@ -153,16 +225,3 @@ class DBStorage:
     def get_property_by_id(self, property_id):
         """Returns the property of a specific id"""
         return self.__session.query(Property).filter(Property.id == property_id).first()
-    
-
-    def reload(self):
-        """create all tables in the database
-        """
-        Base.metadata.create_all(self.__engine)
-        factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        self.__session = scoped_session(factory)()
-
-    def close(self):
-        """close session
-        """
-        self.__session.close()
