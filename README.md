@@ -66,14 +66,17 @@ python3 app.py
 
 ### Top contributors:
 
-<a href="https://github.com/antoineleno/roofmarket/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=othneildrew/Best-README-Template" alt="contrib.rocks image" />
+<a href="https://github.com/antoineleno/final_porfolio/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=antoineleno/final_porfolio" />
+  <img src="7607549.jpg" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
 </a>
 
-<a href="https://github.com/antoineleno/bah/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=antoineleno/bah" />
-</a>
 
+Made with [contrib.rocks](https://contrib.rocks).
+
+- [@](https://github.com/username1)
+- [@username2](https://github.com/username2)
+- [@username3](https://github.com/username3)
 Made with [contrib.rocks](https://contrib.rocks).
 
 <h3 align="center">A passionate Data Scientist and Web Developer.</h3>
