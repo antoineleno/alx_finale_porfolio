@@ -70,7 +70,22 @@ python3 app.py
     <img src="leno.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
     <img src="bah.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
   </a>
+
+### 📫 How to reach us
+- **lenoantoine2000@gmail.com**
+- **bahamadodu@gmail.com**
+### 💬 Connect with us
+  <a href="https://instagram.com/antoineleno7" target="_blank">
+    <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="antoineleno7" height="30" width="40" style="margin-right: 20px;" />
+  </a>
+  <a href="https://instagram.com/bahamdou" target="_blank">
+    <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="bahmadmdou" height="30" width="40" />
+  </a>
 </p>
+
+
+
+
 
 
 
@@ -103,10 +118,6 @@ Made with [contrib.rocks](https://contrib.rocks).
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
-<a href="https://twitter.com/@aleno99770" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="@aleno99770" height="30" width="40" /></a>
-<a href="https://linkedin.com/in/antoine-leno-672959248" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="antoine-leno-672959248" height="30" width="40" /></a>
-<a href="https://kaggle.com/antoineleno" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/kaggle.svg" alt="antoineleno" height="30" width="40" /></a>
-<a href="https://fb.com/antoineleno7" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/facebook.svg" alt="antoineleno7" height="30" width="40" /></a>
 <a href="https://instagram.com/antoineleno7" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="antoineleno7" height="30" width="40" /></a>
 </p>
 
