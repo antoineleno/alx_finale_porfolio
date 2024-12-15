@@ -5,7 +5,6 @@
   <span style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">RoofMarket</span> 
 </h1>
 
-  <img src="7607549.jpg" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
 ## 🔭 *Project Description*
 *RoofMarket 🏠 is a modern web platform designed to revolutionize the way people interact with the real estate market. Whether you’re a property owner looking to list your property or a buyer searching for your dream home, RoofMarket simplifies the entire process. With a clean, user-friendly interface and a robust backend, it empowers users to effortlessly browse, manage, and transact properties.*
 
