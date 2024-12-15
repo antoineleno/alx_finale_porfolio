@@ -20,42 +20,42 @@ Enhances the property browsing experience with dynamic, visually appealing layou
 *We used Flask (Python) for its simplicity and flexibility in building scalable web applications with RESTful APIs. HTML5, CSS3, and JavaScript enable a dynamic, interactive, and user-friendly front-end experience. MySQL is chosen for its reliability and efficiency in managing and retrieving large datasets for user information and transactions*
 ## 🛠️ Installation Steps
 
-1. Clone the repository
+*1. Clone the repository*
 
 ```bash
 git clone https://github.com/antoineleno/roofmarket.git
 ```
 
-2. Change the working directory
+*2. Change the working directory*
 
 ```bash
 cd roofmarket
 ``` 
 
-3. Create a virtual environment
+*3. Create a virtual environment*
 
 ```bash
 python3 -m venv myenv
 ```
-4. Activate the virtual environment
+*4. Activate the virtual environment*
 
 ```bash
 source myenv/bin/activate
 ```
 
-5. Install dependencies
+*5. Install dependencies*
 
 ```bash
 npm install
 ```
 
-6. Change the working directory
+*6. Change the working directory*
 
 ```bash
 cd web_flask
 ```
 
-7. Run the app
+*7. Run the app*
 
 ```bash
 python3 app.py
