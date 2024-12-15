@@ -64,10 +64,14 @@ python3 app.py
 🌟 You are all set!
 
 ## 🍰 Code Contributors
-<a href="https://github.com/antoineleno/final_porfolio/graphs/contributors">
-  <img src="leno.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+
+<p align="center">
+  <a href="https://github.com/antoineleno/final_porfolio/graphs/contributors">
+    <img src="leno.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
     <img src="bah.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
-</a>
+  </a>
+</p>
+
 
 
 
