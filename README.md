@@ -18,7 +18,7 @@ Enhances the property browsing experience with dynamic, visually appealing layou
 
 
 *We used Flask (Python) for its simplicity and flexibility in building scalable web applications with RESTful APIs. HTML5, CSS3, and JavaScript enable a dynamic, interactive, and user-friendly front-end experience. MySQL is chosen for its reliability and efficiency in managing and retrieving large datasets for user information and transactions*
-## 🛠️ Installation Steps
+## 🛠️ *Installation Steps*
 
 *1. Clone the repository*
 
@@ -63,7 +63,7 @@ python3 app.py
 
 🌟 You are all set!
 
-## 👯 Code Contributors
+## 👯 *Code Contributors*
 
 <p align="center">
   <a href="https://github.com/antoineleno/final_porfolio/graphs/contributors">
@@ -71,9 +71,9 @@ python3 app.py
     <img src="bah.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
   </a>
 
-### 📫 How to reach us
-- **lenoantoine2000@gmail.com**
-- **bamadodu634@gmail.com**
+### 📫 *How to reach us*
+- ***lenoantoine2000@gmail.com***
+- ***bamadodu634@gmail.com***
 </p>
 
 
