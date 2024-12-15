@@ -76,8 +76,15 @@ python3 app.py
 - ***bamadodu634@gmail.com***
 </p>
 
+## 🚀 *Demo*
 
+<a href="https://rahuldkjain.github.io/gh-profile-readme-generator" target="blank">
+<img src="https://img.shields.io/website?url=https%3A%2F%2Frahuldkjain.github.io%2Fgh-profile-readme-generator&logo=github&style=flat-square" />
+</a>
 
+## 🙇 *Special Thanks to*
+
+- [ALX Software Engineering](https://github.com/alx-se) for providing us with an incredible training experience.
 
 
 
