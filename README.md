@@ -63,16 +63,16 @@ python3 app.py
 
 🌟 You are all set!
 
-### Top contributors:
-
+## 🍰 Code Contributors
 <a href="https://github.com/antoineleno/final_porfolio/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=antoineleno/final_porfolio" />
-  <img src="antoineleno.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+  <img src="leno.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+    <img src="bah.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
 </a>
 
 
-Made with [contrib.rocks](https://contrib.rocks).
 
+Made with [contrib.rocks](https://contrib.rocks).
+sdddd
 - [@](https://github.com/username1)
 - [@username2](https://github.com/username2)
 - [@username3](https://github.com/username3)
