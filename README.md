@@ -63,7 +63,7 @@ python3 app.py
 
 🌟 You are all set!
 
-## 🍰 Code Contributors
+## 👯 Code Contributors
 
 <p align="center">
   <a href="https://github.com/antoineleno/final_porfolio/graphs/contributors">
