@@ -73,14 +73,7 @@ python3 app.py
 
 ### 📫 How to reach us
 - **lenoantoine2000@gmail.com**
-- **bahamadodu@gmail.com**
-### 💬 Connect with us
-  <a href="https://instagram.com/antoineleno7" target="_blank">
-    <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="antoineleno7" height="30" width="40" style="margin-right: 20px;" />
-  </a>
-  <a href="https://instagram.com/bahamdou" target="_blank">
-    <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="bahmadmdou" height="30" width="40" />
-  </a>
+- **bamadodu634@gmail.com**
 </p>
 
 
