@@ -67,7 +67,7 @@ python3 app.py
 
 <a href="https://github.com/antoineleno/final_porfolio/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=antoineleno/final_porfolio" />
-  <img src="7607549.jpg" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+  <img src="antoineleno.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
 </a>
 
 
