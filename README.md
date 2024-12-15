@@ -71,7 +71,7 @@ python3 app.py
     <img src="bah.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
   </a>
 
-- ### 📫 *How to reach us*
+### 📫 *How to reach us*
 - ***lenoantoine2000@gmail.com***
 - ***bamadodu634@gmail.com***
 </p>
