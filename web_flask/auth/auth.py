@@ -45,14 +45,14 @@ def login_view():
                 message = "Successfully Logged In"
                 login_user(user)
                 flash(message, 'success')
-                return redirect(url_for('app_views_auth.base'))
+                return redirect(url_for('app_view_home.home'))
             message = "Authentification failed : Password or email incorrect"
             flash(message, "error")
-            return redirect(url_for('app_views_auth.base'))
+            return redirect(url_for('app_view_home.home'))
         else:
             message = "Account doesn't exist"
             flash(message, "error")
-            return redirect(url_for('app_views_auth.base'))
+            return redirect(url_for('app_view_home.home'))
 
 
 @login_required
@@ -60,7 +60,7 @@ def login_view():
 def log_out():
     """User logout Function"""
     logout_user()
-    return redirect(url_for('app_views_auth.base'))
+    return redirect(url_for('app_view_home.home'))
 
 
 @app_views_auth.route('/sign_up', methods=['GET', 'POST'])
@@ -89,17 +89,17 @@ def sign_up():
             new_instance.save()
             message = """Account successfully created"""
             flash(message, 'success')
-            return redirect(url_for('app_views_auth.base'))
+            return redirect(url_for('app_view_home.home'))
 
         except IntegrityError as e:
             storage.close()
             message = """Account not created, Email already exist"""
             flash(message, 'error')
-            return redirect(url_for('app_views_auth.base'))
+            return redirect(url_for('app_view_home.home'))
     else:
         message = """An error occur while creating your accound!"""
         flash(message, 'error')
-        return redirect(url_for('app_views_auth.base'))
+        return redirect(url_for('app_view_home.home'))
 
 
 @app_views_auth.route('/forgot_password', methods=['GET', 'POST'])
@@ -118,11 +118,11 @@ def forget_password():
             sent to your email address.
             """
             flash(message, "success")
-            return redirect(url_for('app_views_auth.base'))
+            return redirect(url_for('app_view_home.home'))
         else:
             message = "There is no account associated with this email."
             flash(message, "error")
-            return redirect(url_for('app_views_auth.base'))
+            return redirect(url_for('app_view_home.home'))
 
 
 @app_views_auth.route('/base', methods=['GET', 'POST'])
@@ -201,6 +201,7 @@ def new_conversation():
     """Create a new room for a user"""
     if request.method == "POST":
         show_modal = "yes"
+        
         current_user_id = request.form.get('current_user_id')
         receiver_id = request.form.get('receiver_id')
         property_id = request.form.get('property_id')
@@ -217,7 +218,7 @@ def new_conversation():
                 room_checking_2.updated_at = datetime.datetime.utcnow()
                 room_checking_1.save()
                 room_checking_2.save()
-                return render_template("base.html", show_modal=show_modal)
+                return redirect(url_for('app_view_property.property_onclick', property_id=property_id, show_modal=show_modal))
         else:
             new_room = Room()
             first_room_participant = RoomParticipants(user_id=current_user_id,
@@ -234,8 +235,8 @@ def new_conversation():
                               message="New conversation opened!")
             message.save()
             update_online_status(False)
-            return render_template("base.html", show_modal=show_modal)
-    return render_template('room_creation.html')
+            return redirect(url_for('app_view_property.property_onclick', property_id=property_id))
+ 
 
 
 @app_views_auth.route('/messages/<room_id>', methods=['GET'])
@@ -264,7 +265,7 @@ def get_conversation(room_id):
         property_id = room_participant.property_id
         room_property = storage.get_object(Property, id=property_id)
         property_name = room_property.title
-        property_url = "http://127.0.0.1:5000/auth/base"
+        property_url = "http://127.0.0.1:5000/"+ url_for('app_view_property.property_onclick', property_id=property_id)
 
         my_conversation = {
             "property_name": property_name,
@@ -497,8 +498,7 @@ def property_subcription():
                 'area': property.area,
                 'bedrooms': property.bedrooms,
                 'bathrooms': property.bathrooms,
-                'picture_link': "eb9a260b-2a73-4747-a0cb-7a1a8d2ac44e_p.jpg"
-                # find_image_path(property.id)
+                'picture_link': storage.get_image(property.id, "Main_image").image_url
             }
             property_attributes.append(values)
 

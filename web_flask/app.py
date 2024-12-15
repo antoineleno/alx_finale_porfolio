@@ -25,6 +25,8 @@ from datetime import datetime
 
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+
 CORS(app, resources={r'/*': {'origins': '0.0.0.0'}})
 app.secret_key = "a2cf8cf6ad37b0d8eb2b51846aee0e34"
 socketio = SocketIO(app)
@@ -106,7 +108,7 @@ def load_user(id):
 
 @app.teardown_appcontext
 def teardown_db(exception):
-    """Close everytime the opened session"""
+    #Close everytime the opened session
     try:
         storage.close()
     except Exception as e:

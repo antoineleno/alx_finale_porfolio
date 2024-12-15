@@ -9,10 +9,9 @@ from models.property_image import Property_image
 
 
 
-
-
 @app_views_home.route("/")
 def home():
+    """Home"""
 
     per_page = 9
     property_objs = []
@@ -28,11 +27,9 @@ def home():
 
     elif feature == "sell":
         total_objs = storage.count(Property, listing_type="sell")
-        #print(total_objs)
         if per_page > total_objs:
             per_page = total_objs
         property_objs = storage.property_objs(per_page, 0, listing_type="sell")
-        #print(property_objs)
     
     elif feature == "rent":
         total_objs = storage.count(Property, listing_type="rent")
@@ -40,24 +37,31 @@ def home():
             per_page = total_objs
         property_objs = storage.property_objs(per_page, 0, listing_type="rent")
 
-    
-    
-    #property_objs = storage.all(Property)
     property_list = []
     
     for obj in property_objs:
     
         Main_image_obj = storage.get_image(obj.id, "Main_image")
 
-        property_list.append({"id": obj.id, "title": obj.title, "property_type": obj.property_type, "price": obj.price, "listing_type": obj.listing_type,
-                              "address": obj.address, "city": obj.city, "country": obj.country, "bedrooms": obj.bedrooms, 
-                              "bathrooms": obj.bathrooms, "area": obj.area, "Main_image_url": Main_image_obj.image_url})
+        property_list.append({"id": obj.id, "title": obj.title, 
+                              "property_type": obj.property_type, 
+                              "price": obj.price, "listing_type": obj.listing_type,
+                              "address": obj.address, "city": obj.city, 
+                              "country": obj.country, "bedrooms": obj.bedrooms, 
+                              "bathrooms": obj.bathrooms, "area": obj.area, 
+                              "Main_image_url": Main_image_obj.image_url})
      
-    Number_per_type ={"apartment": storage.count(Property, "apartment"), "villa": storage.count(Property, "villa"), 
-                      "studio": storage.count(Property, "studio"), "house":storage.count(Property, "house") }
+    Number_per_type ={"apartment": storage.count(Property, "apartment"), 
+                      "villa": storage.count(Property, "villa"), 
+                      "studio": storage.count(Property, "studio"), 
+                      "house":storage.count(Property, "house") }
+    
     countries = storage.get_countries()
-    return render_template("index.html", properties=property_list, Number_per_type=Number_per_type, countries=countries, feature=feature)
 
+    return render_template("index.html", properties=property_list, 
+                           Number_per_type=Number_per_type, 
+                           countries=countries, feature=feature,
+                           window="home")
 
 
 @app_views_home.route("/get_cities/<country>")
