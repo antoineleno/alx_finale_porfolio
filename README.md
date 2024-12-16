@@ -100,7 +100,7 @@ python3 app.py
   </a>
 </p>
 
-## 🙇 *5. Special Thanks to*
+## 🙇 *4. Special Thanks to*
 
 - [*ALX Software Engineering*](https://www.alxafrica.com/where-did-the-alx-software-engineering-programme-go/)  *for providing us with an incredible training experience.*
 - [*Mastercard Foundation*](https://mastercardfdn.org/)  *for generously funding this transformative training opportunity.*
@@ -108,7 +108,7 @@ python3 app.py
 
 
 
-## 🚀 *6. Demo*
+## 🚀 *5. Demo*
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=hPYDavftd8s&list=RDMM7b9z-YcDUrc&index=9" target="blank">
@@ -117,10 +117,10 @@ python3 app.py
 </p>
 
 
-## 📜 *7. License*
+## 📜 *6. License*
 *Please refer to the included license file in the repository for detailed information.*
 
-## ✅ *Tests*
+## ✅ *7. Tests*
 *Run the following command from the root of the project directory to execute all tests and verify the software functionality :*
 ```bash
 ROOFMARKET_ENV=test python3 -m unittest discover tests
