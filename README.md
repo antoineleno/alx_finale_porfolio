@@ -63,6 +63,13 @@ python3 app.py
 
 🌟 You are all set!
 
+
+## 📘  *How to use the prooject*
+*After installing the dependencies from the requirements file, an admin user will be created with the following credentials :*
+> - ***email*** : *roofmarketadmin@gmail.com*
+> - ***password***: *roofmarketpassword*
+
+
 ## 👯 *Code Contributors*
 
 <p align="center">
@@ -77,18 +84,20 @@ python3 app.py
 > - ***bamadodu634@gmail.com***
 
 
+
+
+
+## 🙇 *Special Thanks to*
+
+- [ALX Software Engineering](https://github.com/alx-se) for providing us with an incredible training experience.
+- [Mastercard Foundation](https://mastercardfdn.org/) for generously funding this transformative training opportunity.
+
+
 ## 🚀 *Demo*
 
 <a href="https://rahuldkjain.github.io/gh-profile-readme-generator" target="blank">
 <img src="https://img.shields.io/website?url=https%3A%2F%2Frahuldkjain.github.io%2Fgh-profile-readme-generator&logo=github&style=flat-square" />
 </a>
-
-## 🙇 *Special Thanks to*
-
-- [ALX Software Engineering](https://github.com/alx-se) for providing us with an incredible training experience.
-
-
-
 
 
 Made with [contrib.rocks](https://contrib.rocks).
@@ -263,7 +272,7 @@ npm install
 ```bash
 npm start
 ```
-## 🙇 Special Thanks
+##wSpecial Thanks
 
 - [Anurag Hazra](https://github.com/anuraghazra) for amazing [github-readme-stats](https://github.com/anuraghazra/github-readme-stats)
 - [Anton Komarev](https://github.com/antonkomarev) for super cool [github-profile-views-counter](https://github.com/antonkomarev/github-profile-views-counter)
