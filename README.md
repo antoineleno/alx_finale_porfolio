@@ -80,8 +80,28 @@ python3 app.py
 </p>
 
 > ### 📫 *How to reach us*
-> - ***lenoantoine2000@gmail.com***
-> - ***bamadodu634@gmail.com***
+<p align="center">
+  <strong>Antoine LENO</strong> &nbsp;&nbsp;&nbsp;&nbsp; <strong>Amadou BAH</strong><br>
+  <a href="mailto:lenoantoine2000@gmail.com">
+      <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="Instagram" height="20" width="20" /></a>
+    <a href="mailto:lenoantoine2000@gmail.com">
+      <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="Instagram" height="20" width="20" /></a>
+  <a href="https://instagram.com/antoineleno7" target="_blank">
+    <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="Instagram" height="20" width="20" />
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="mailto:bamadodu634@gmail.com">
+      <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="Instagram" height="20" width="20" />
+      </a>
+    <a href="mailto:lenoantoine2000@gmail.com">
+      <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="Instagram" height="20" width="20" /></a>
+  <a href="https://instagram.com/amadoubah" target="_blank">
+    <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="Instagram" height="20" width="20" />
+  </a>
+</p>
+
+
+
 
 
 
