@@ -6,7 +6,7 @@
 </h1>
 <img alt="Data science" width="1200" src="web_flask/auth/static/img/tableofcontents.png">
 
-## 🔭 *Project Description*
+## 🔭 *1. Project Description*
 *RoofMarket 🏠 is a modern web platform designed to revolutionize the way people interact with the real estate market. Whether you’re a property owner looking to list your property or a buyer searching for your dream home, RoofMarket simplifies the entire process. With a clean, user-friendly interface and a robust backend, it empowers users to effortlessly browse, manage, and transact properties.*
 
 - ### *What Does RoofMarket Do?*
@@ -19,7 +19,7 @@ Enhances the property browsing experience with dynamic, visually appealing layou
 
 
 *We used Flask (Python) for its simplicity and flexibility in building scalable web applications with RESTful APIs. HTML5, CSS3, and JavaScript enable a dynamic, interactive, and user-friendly front-end experience. MySQL is chosen for its reliability and efficiency in managing and retrieving large datasets for user information and transactions*
-## 🛠️ *Installation Steps*
+## 🛠️ *2. Installation Steps*
 
 *1. Clone the repository*
 
@@ -71,7 +71,7 @@ python3 app.py
 > - ***password*** : *roofmarketpassword*
 
 
-## 👯 *Code Contributors*
+## 👯 *3. Code Contributors*
 
 <p align="center">
   <a href="https://github.com/antoineleno/final_porfolio/graphs/contributors">
@@ -100,7 +100,7 @@ python3 app.py
   </a>
 </p>
 
-## 🙇 *Special Thanks to*
+## 🙇 *5. Special Thanks to*
 
 - [*ALX Software Engineering*](https://www.alxafrica.com/where-did-the-alx-software-engineering-programme-go/)  *for providing us with an incredible training experience.*
 - [*Mastercard Foundation*](https://mastercardfdn.org/)  *for generously funding this transformative training opportunity.*
@@ -108,7 +108,7 @@ python3 app.py
 
 
 
-## 🚀 *Demo*
+## 🚀 *6. Demo*
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=hPYDavftd8s&list=RDMM7b9z-YcDUrc&index=9" target="blank">
@@ -117,7 +117,7 @@ python3 app.py
 </p>
 
 
-## 📜 *License*
+## 📜 *7. License*
 *Please refer to the included license file in the repository for detailed information.*
 
 ## ✅ *Tests*
@@ -126,7 +126,7 @@ python3 app.py
 ROOFMARKET_ENV=test python3 -m unittest discover tests
 ```
 
-## 🏅 *Badge*
+## 🏅 *8. Badge*
 <p align="center">
 <a href="https://github.com/antoineleno/alx_finale_porfolio/blob/main/LICENSE" target="blank">
 <img src="https://img.shields.io/github/license/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio license" />
