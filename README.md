@@ -109,13 +109,40 @@ python3 app.py
 
 ## 🚀 *Demo*
 
-<a href="https://rahuldkjain.github.io/gh-profile-readme-generator" target="blank">
-<img src="https://img.shields.io/website?url=https%3A%2F%2Frahuldkjain.github.io%2Fgh-profile-readme-generator&logo=github&style=flat-square" />
-</a>
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=hPYDavftd8s&list=RDMM7b9z-YcDUrc&index=9" target="blank">
+    <img src="https://img.shields.io/website?url=https%3A%2F%2Fyour-video-link-here.com&logo=youtube&style=flat-square" alt="Demo Video" />
+  </a>
+</p>
+
 
 ## 📜 *License*
 *Please refer to the included license file in the repository for detailed information.*
 
+## ✅ *Tests*
+*Run the following command from the root of the project directory to execute all tests and verify the software functionality :*
+```bash
+ECOURSE_ENV=test python3 -m unittest discover tests
+```
+
 ## 🏅 *Badge*
+<p align="center">
+<a href="https://github.com/antoineleno/alx_finale_porfolio/blob/main/LICENSE" target="blank">
+<img src="https://img.shields.io/github/license/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio license" />
+</a>
+<a href="https://github.com/antoineleno/alx_finale_porfolio/fork" target="blank">
+<img src="https://img.shields.io/github/forks/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio forks"/>
+</a>
+<a href="https://github.com/antoineleno/alx_finale_porfolio/stargazers" target="blank">
+<img src="https://img.shields.io/github/stars/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio stars"/>
+</a>
+<a href="https://github.com/antoineleno/alx_finale_porfolio/issues" target="blank">
+<img src="https://img.shields.io/github/issues/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio issues"/>
+</a>
+<a href="https://github.com/antoineleno/alx_finale_porfolio/pulls" target="blank">
+<img src="https://img.shields.io/github/issues-pr/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio pull-requests"/>
+</a>
+</p>
+
 
 
