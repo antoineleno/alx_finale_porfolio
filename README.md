@@ -66,7 +66,7 @@ python3 app.py
 
 ## 📘  *How to use the prooject*
 *After installing the dependencies from the above requirements file, an admin user will be created with the following credentials :*
-> - ***email***&nbsp;: *rmarketadmin@gmail.com*
+> - ***email***&nbsp;: *roofmarketadmin@gmail.com*
 > - ***password*** : *roofmarketpassword*
 
 
