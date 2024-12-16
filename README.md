@@ -18,7 +18,7 @@ Enhances the property browsing experience with dynamic, visually appealing layou
 <p align="center"> </a> <a href="https://www.linux.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40" height="40"/> </a> <a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/> </a> <a href="https://www.mysql.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/> </a> <a href="https://www.nginx.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nginx/nginx-original.svg" alt="nginx" width="40" height="40"/> </a> <a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="40" height="40"/> </a> <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/> </a> <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a> <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a>  </p>
 
 
-*We used Flask (Python) for its simplicity and flexibility in building scalable web applications with RESTful APIs. HTML5, CSS3, and JavaScript enable a dynamic, interactive, and user-friendly front-end experience. MySQL is chosen for its reliability and efficiency in managing and retrieving large datasets for user information and transactions*
+*We used Linux as the operating system for its stability, Python (Flask) for its simplicity in building scalable web applications, and MySQL for efficient data management. Nginx serves as the web server, while Bootstrap, HTML5, CSS3, and JavaScript enable a responsive, dynamic, and interactive front-end experience. Git helps with version control throughout development.*
 ## 🛠️ *2. Installation Steps*
 
 *1. Clone the repository*
@@ -47,26 +47,24 @@ source myenv/bin/activate
 *5. Install dependencies*
 
 ```bash
-npm install
+pip install -r requirements/requirements.txt
 ```
-
-*6. Change the working directory*
-
+*6. Set up the database*
 ```bash
-cd web_flask
+mysql -u root -p < requirements/database_setup.sql
 ```
 
 *7. Run the app*
 
 ```bash
-python3 app.py
+python3 web_flask/app.py
 ```
 
 🌟 You are all set!
 
 
 ## 📘  *How to use this project*
-*After installing the dependencies from the above requirements file, an admin user will be created with the following credentials :*
+*After completing the installation steps, an admin user will be created with the following credentials :*
 > - ***email***&nbsp;: *rmarketadmin@gmail.com*
 > - ***password*** : *roofmarketpassword*
 
@@ -128,22 +126,27 @@ ROOFMARKET_ENV=test python3 -m unittest discover tests
 
 ## 🏅 *8. Badge*
 <p align="center">
-<a href="https://github.com/antoineleno/alx_finale_porfolio/blob/main/LICENSE" target="blank">
-<img src="https://img.shields.io/github/license/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio license" />
-</a>
-<a href="https://github.com/antoineleno/alx_finale_porfolio/fork" target="blank">
-<img src="https://img.shields.io/github/forks/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio forks"/>
-</a>
-<a href="https://github.com/antoineleno/alx_finale_porfolio/stargazers" target="blank">
-<img src="https://img.shields.io/github/stars/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio stars"/>
-</a>
-<a href="https://github.com/antoineleno/alx_finale_porfolio/issues" target="blank">
-<img src="https://img.shields.io/github/issues/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio issues"/>
-</a>
-<a href="https://github.com/antoineleno/alx_finale_porfolio/pulls" target="blank">
-<img src="https://img.shields.io/github/issues-pr/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio pull-requests"/>
-</a>
+  <a href="https://github.com/antoineleno/alx_finale_porfolio/blob/main/LICENSE" target="blank">
+    <img src="https://img.shields.io/github/license/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio license" />
+  </a>
+  <a href="https://github.com/antoineleno/alx_finale_porfolio/fork" target="blank">
+    <img src="https://img.shields.io/github/forks/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio forks"/>
+  </a>
+  <a href="https://github.com/antoineleno/alx_finale_porfolio/stargazers" target="blank">
+    <img src="https://img.shields.io/github/stars/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio stars"/>
+  </a>
+  <a href="https://github.com/antoineleno/alx_finale_porfolio/issues" target="blank">
+    <img src="https://img.shields.io/github/issues/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio issues"/>
+  </a>
+  <a href="https://github.com/antoineleno/alx_finale_porfolio/pulls" target="blank">
+    <img src="https://img.shields.io/github/issues-pr/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio pull-requests"/>
+  </a>
+  <!-- Example Contribution Badge -->
+  <a href="https://github.com/antoineleno/alx_finale_porfolio/graphs/contributors" target="blank">
+    <img src="https://img.shields.io/github/contributors/antoineleno/alx_finale_porfolio?style=flat-square" alt="alx_finale_porfolio contributors"/>
+  </a>
 </p>
+
 
 
 
