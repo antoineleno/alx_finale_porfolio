@@ -101,7 +101,7 @@ python3 app.py
 
 ## 🙇 *Special Thanks to*
 
-- [*ALX Software Engineering*](https://github.com/alx-se)  *for providing us with an incredible training experience.*
+- [*ALX Software Engineering*](https://www.alxafrica.com/where-did-the-alx-software-engineering-programme-go/)  *for providing us with an incredible training experience.*
 - [*Mastercard Foundation*](https://mastercardfdn.org/)  *for generously funding this transformative training opportunity.*
 - [*Holberton Inc*](https://www.holbertonschool.com/)  *for their collaboration in powering this exceptional learning journey.*
 
@@ -122,7 +122,7 @@ python3 app.py
 ## ✅ *Tests*
 *Run the following command from the root of the project directory to execute all tests and verify the software functionality :*
 ```bash
-ECOURSE_ENV=test python3 -m unittest discover tests
+ROOFMARKET_ENV=test python3 -m unittest discover tests
 ```
 
 ## 🏅 *Badge*
