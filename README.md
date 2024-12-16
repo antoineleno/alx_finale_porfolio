@@ -65,9 +65,9 @@ python3 app.py
 
 
 ## 📘  *How to use the prooject*
-*After installing the dependencies from the requirements file, an admin user will be created with the following credentials :*
-> - ***email*** : *roofmarketadmin@gmail.com*
-> - ***password***: *roofmarketpassword*
+*After installing the dependencies from the above requirements file, an admin user will be created with the following credentials :*
+> - ***email***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: *roofmarketadmin@gmail.com*
+> - ***password*** : *roofmarketpassword*
 
 
 ## 👯 *Code Contributors*
@@ -87,7 +87,7 @@ python3 app.py
     <a href="https://github.com/antoineleno">
       <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="Instagram" height="20" width="20" /></a>
   <a href="https://instagram.com/antoineleno7" target="_blank">
-    <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="Instagram" height="20" width="20" />
+    <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="Instagram" height="20" width="20"/>
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="mailto:bamadodu634@gmail.com">
@@ -99,17 +99,12 @@ python3 app.py
   </a>
 </p>
 
-
-
-
-
-
-
-
 ## 🙇 *Special Thanks to*
 
 - [ALX Software Engineering](https://github.com/alx-se) for providing us with an incredible training experience.
 - [Mastercard Foundation](https://mastercardfdn.org/) for generously funding this transformative training opportunity.
+- [Holberton Inc](https://www.holbertonschool.com/) for their collaboration in powering this exceptional learning journey.
+
 
 
 ## 🚀 *Demo*
