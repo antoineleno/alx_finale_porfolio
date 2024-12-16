@@ -101,9 +101,9 @@ python3 app.py
 
 ## 🙇 *Special Thanks to*
 
-- [ALX Software Engineering](https://github.com/alx-se) for providing us with an incredible training experience.
-- [Mastercard Foundation](https://mastercardfdn.org/) for generously funding this transformative training opportunity.
-- [Holberton Inc](https://www.holbertonschool.com/) for their collaboration in powering this exceptional learning journey.
+- [*ALX Software Engineering*](https://github.com/alx-se) *for providing us with an incredible training experience.*
+- [*Mastercard Foundation*](https://mastercardfdn.org/) *for generously funding this transformative training opportunity.*
+- [*Holberton Inc*](https://www.holbertonschool.com/) *for their collaboration in powering this exceptional learning journey.*
 
 
 
