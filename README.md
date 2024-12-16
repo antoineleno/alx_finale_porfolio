@@ -51,7 +51,7 @@ pip install -r requirements/requirements.txt
 ```
 *6. Set up the database*
 ```bash
-mysql -u root -p < requirements/database_setup.sql
+sudo mysql -u root -p < requirements/database_setup.sql
 ```
 
 *7. Run the app*
