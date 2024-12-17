@@ -7,7 +7,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models.agent import Agent
-from models.user import User
+from models.user import User, UserSubcription
+from models.usersubcription import  UserSubcription
 from models.property import Property
 from models.transaction import Transaction, Subcription
 from models.whishlist import Whishlist
@@ -58,6 +59,7 @@ class DBStorage:
                       "Property_image": Property_image,
                       "Message": Message,
                       "Room": Room,
+                      "UserSubcription": UserSubcription,
                       "RoomParticipants": RoomParticipants}
         obj_result = {}
         cls = cls if not isinstance(cls, str) else allclasses.get(cls)

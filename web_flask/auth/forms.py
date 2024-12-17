@@ -20,6 +20,7 @@ class SignUpForm(FlaskForm):
     """Sign Up form"""
     first_name = StringField('First Name')
     last_name = StringField('Last Name')
+    address = StringField('address')
     email = EmailField('Email', validators=[DataRequired(), Email()])
     phone_number = StringField('Phone Number',
                                validators=[DataRequired()])

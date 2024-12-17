@@ -19,6 +19,7 @@ from models.user import User
 from models.message import Message, RoomParticipants
 from flask_login import current_user
 from auth.forms import SignInForm, SignUpForm, ForgotPasswordForm
+from models.usersubcription import UserSubcription
 from flask_socketio import join_room, leave_room, SocketIO, emit
 import os
 from datetime import datetime
@@ -51,13 +52,19 @@ def inject_user():
     unread_message = 0
     admin_phone_number = ""
     admin_email = ""
+    admin_address = ""
+    is_subscribed = False
     admin_object = storage.get_object(User, user_type="Admin")
     if admin_object is not None:
         admin_phone_number = admin_object.phone_number
         admin_email = admin_object.email
+        admin_address = admin_object.address
+
 
     if current_user.is_authenticated:
         user_id = current_user.id
+        user_subscription = storage.get_object(UserSubcription, user_id=current_user.id)
+        is_subscribed = True if user_subscription is not None else False
         user = storage.get_object(User, id=user_id)
         all_user_room = user.roomparticipants
         all_ids = []
@@ -72,7 +79,6 @@ def inject_user():
                 user_id=user_id,
                 read_status=False
                 )
-            print(message_count)
             unread_message += message_count
 
     profile_path = "user.avif"
@@ -95,8 +101,10 @@ def inject_user():
         'sign_up_form': SignUpForm(),
         'unread_message': unread_message,
         'admin_phone_number': admin_phone_number,
+        'admin_address': admin_address,
         'admin_email': admin_email,
-        'forgot_password_form': ForgotPasswordForm()
+        'forgot_password_form': ForgotPasswordForm(),
+        'is_subscribed': is_subscribed
     }
 
 
@@ -108,7 +116,7 @@ def load_user(id):
 
 @app.teardown_appcontext
 def teardown_db(exception):
-    #Close everytime the opened session
+    """Close the session"""
     try:
         storage.close()
     except Exception as e:

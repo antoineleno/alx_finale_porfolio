@@ -14,15 +14,18 @@ from models.agent import Agent
 from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
 from werkzeug.utils import secure_filename
+from models.usersubcription import UserSubcription
 from .forms import SignInForm, SignUpForm, ForgotPasswordForm
 from auth import app_views_auth
 import secrets
 import string
+from PIL import Image
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import datetime
 import os
+import re
 from operator import attrgetter
 
 
@@ -70,6 +73,7 @@ def sign_up():
     if sign_up_form.validate_on_submit():
         first_name = sign_up_form.first_name.data
         last_name = sign_up_form.last_name.data
+        address = sign_up_form.address.data
         email = sign_up_form.email.data
         phone_number = sign_up_form.phone_number.data
         password = sign_up_form.password.data
@@ -80,6 +84,7 @@ def sign_up():
                    "phone_number": phone_number,
                    "password": password,
                    "user_type": user_type,
+                   "address": address,
                    "profile_image": "user.avif"}
 
         new_instance = User()
@@ -316,6 +321,33 @@ def get_conversation(room_id):
     else:
         return render_template('404.html')
 
+@login_required
+@app_views_auth.route('/subcribe_to_new_properties', methods=['GET', 'POST'])
+def user_subription():
+    """Subcribe to receive new update"""
+    if current_user.is_authenticated:
+        if request.method == "POST":
+            subscription_action = request.form.get('subscription_action')
+            if subscription_action == 'subscribe':
+                new_subription = UserSubcription(user_id=current_user.id)
+                new_subription.save()
+                message = """Successfully subscribed! You will
+                receive updates whenever a new property is listed."""
+                flash(message, 'success')
+                return redirect(url_for('app_view_home.home'))
+            else:
+                user_subription = storage.get_object(UserSubcription, user_id=current_user.id)
+                user_subription.delete()
+                storage.save()
+                message = """You have successfully unsubscribed. 
+                You will no longer receive updates about new property listings."""
+                flash(message, 'success')
+                return redirect(url_for('app_view_home.home'))            
+    else:
+        message = """Please log in before subscribing"""
+        flash(message, 'error')      
+        return redirect(url_for('app_view_home.home'))
+
 
 @login_required
 @app_views_auth.route('/profile', methods=['GET', 'POST'])
@@ -334,6 +366,8 @@ def profile():
             user.first_name = first_name
             last_name = request.form.get('last_name')
             user.last_name = last_name
+            address = request.form.get('address')
+            user.address = address
             phone_number = request.form.get('phone_number')
             user.phone_number = phone_number
             user_type = request.form.get('user_type')
@@ -382,6 +416,7 @@ def profile():
             phone_number = user.phone_number
             user_type = user.user_type
             email = user.email
+            address = user.address
 
             return render_template('profile.html',
                                    full_name=full_name,
@@ -390,6 +425,7 @@ def profile():
                                    phone_number=phone_number,
                                    user_type=user_type,
                                    email=email,
+                                   address=address,
                                    property_ids=property_ids,
                                    s_status=s_status)
     else:
@@ -598,42 +634,70 @@ def manage_users():
 def manage_advertisement():
     """Manage advertisement images"""
     if current_user.is_authenticated:
+        ad_error_images = []
+        ad_good_images = []
+        image_directory = os.path.join('auth', 'static', 'img')
+        existing_agents = [
+        {'name': 'Antoine LENO', 'image': 'agent_1.jpg'},
+        {'name': 'Antoine LENO', 'image': 'agent_1.jpg'},
+        {'name': 'Antoine LENO', 'image': 'agent_1.jpg'}
+        ]
+        existing_images = [
+            filename for filename in os.listdir(image_directory)
+            if filename.startswith("adver_image") and os.path.isfile(os.path.join(image_directory, filename))
+        ]
+        def extract_number(file):
+            match = re.search(r"(\d+)", file)
+            return int(match.group(1)) if match else 0
+
+        existing_images = sorted(existing_images, key=extract_number)
         if request.method == "POST":
-            advertisement_images = []
             for i in range(1, 7):
                 ad_image = request.files.get(f'mainImage{i}')
                 if ad_image:
-                    ad_image_extension = os.path.splitext(ad_image.filename)[1]
-                    ad_image_filename = os.path.join(
-                        'auth/static/img',
-                        f"adver_image_{i}{ad_image_extension}"
-                    )
-                    ad_image.save(ad_image_filename)
-                    advertisement_images.append(ad_image_filename)
+                    image = Image.open(ad_image)
+                    if image.size != (1000, 1000):
+                        ad_error_images.append(i)
+                    else:
+                        ad_image_extension = os.path.splitext(ad_image.filename)[1]
+                        ad_image_basename = f"adver_image_{i}"
+                        ad_image_directory = 'auth/static/img'
+                        ad_image_filename = os.path.join(ad_image_directory, f"{ad_image_basename}{ad_image_extension}")
 
-            agent_field_count = int(request.form.get('agentFieldCount', 0))
-            for i in range(1, agent_field_count + 1):
-                agent_image = request.files.get(f'agentImage{i}')
-                agent_name = request.form.get(f'agentName{i}')
+                        for file in os.listdir(ad_image_directory):
+                            if file.startswith(ad_image_basename) and file != f"{ad_image_basename}{ad_image_extension}":
+                                os.remove(os.path.join(ad_image_directory, file))
+                        ad_image.seek(0)
+                        ad_image.save(ad_image_filename)
+                        ad_good_images.append(i)
 
-                if agent_image and agent_name:
-                    agent_image_extension = os.path.splitext(
-                        agent_image.filename)[1]
-                    agent_image_filename = os.path.join(
-                "auth/static/img", f"agent_{i}{agent_image_extension}"
-                )
+            #agent_field_count = int(request.form.get('agentFieldCount', 0))
+            #for i in range(1, agent_field_count + 1):
+            #    agent_image = request.files.get(f'agentImage{i}')
+            #    agent_name = request.form.get(f'agentName{i}')
 
-                    agent_image.save(agent_image_filename)
-                    new_agent = Agent()
-                    print(agent_name)
-                    setattr(new_agent, "agent_name", agent_name)
-                    setattr(new_agent, "image_url", agent_image_filename)
-                    new_agent.save()
-            message = """Advertisement successfully Updated"""
-            flash(message, "success")
+            #    if agent_image and agent_name:
+            #        agent_image_extension = os.path.splitext(
+            #            agent_image.filename)[1]
+            #        agent_image_filename = os.path.join(
+            #    "auth/static/img", f"agent_{i}{agent_image_extension}"
+            #    )
+
+            #        agent_image.save(agent_image_filename)
+            #        new_agent = Agent()
+            #        setattr(new_agent, "agent_name", agent_name)
+            #        setattr(new_agent, "image_url", agent_image_filename)
+            #       new_agent.save()
+            if len(ad_error_images) != 0:
+                flash(f"Image {i} must be exactly 1000px by 1000px.", "error")
+            if len(ad_good_images) != 0:
+                message = """Advertisement successfully Updated"""
+                flash(message, "success")
             return redirect(url_for('app_views_auth.manage_advertisement'))
 
-        return render_template('manage_advertisement.html')
+        return render_template('manage_advertisement.html',
+                               existing_images=existing_images,
+                               existing_agents=existing_agents)
     else:
         return render_template('404.html')
 

@@ -23,25 +23,50 @@
                 {% for i in range(1, 7) %}
                 <div class="col-md-6 mb-3">
                     <label for="mainImage{{ i }}" class="form-label">Image {{ i }}</label>
-                    <input type="file" class="form-control" id="mainImage{{ i }}" name="mainImage{{ i }}" accept="image/*" required>
+    
+                    <!-- Display the existing image if available -->
+                    {% if existing_images[i-1] %}
+                        <img src="{{ url_for('.static', filename='img/' + existing_images[i-1]) }}" alt="Image {{ i }}" class="img-thumbnail mb-2" style="max-width: 100%; height: auto;">
+                    {% endif %}
+            
+                    <!-- File input for new image -->
+                    <input type="file" class="form-control" id="mainImage{{ i }}" name="mainImage{{ i }}" accept="image/*">
                 </div>
                 {% endfor %}
             </div>
-    
             <header class="mb-4 text-center">
+                <br>
+                <br>
                 <h4>Update Agents</h4>
             </header>
-
-            <!-- Ask user for the number of fields -->
+            <div class="row">
+                {% for agent in existing_agents %}
+                <div class="col-md-6 mb-3">
+                    <!-- Input field to update the agent's name -->
+                    <label for="agentName{{ loop.index }}" class="form-label">Agent Name ({{ agent['name'] }})</label>
+                    <input type="text" class="form-control" id="agentName{{ loop.index }}" name="agentNames" value="{{ agent['name'] }}" required>
+            
+                    <!-- Display the existing agent image if available -->
+                    {% if agent['image'] %}
+                        <img src="{{ url_for('.static', filename='img/agents/' + agent['image']) }}" 
+                             alt="Image of {{ agent['name'] }}" 
+                             class="img-thumbnail mb-2" style="max-width: 100%; height: auto;">
+                    {% endif %}
+            
+                    <!-- File input for new agent image -->
+                    <input type="file" class="form-control" id="mainImage{{ loop.index }}" name="agentImages" accept="image/*">
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Ask user for the number of fields       -->
             <div class="mb-3">
                 <label for="agentFieldCount" class="form-label">How many agent images do you want to add?</label>
                 <input type="number" class="form-control" id="agentFieldCount" name="agentFieldCount" min="1" required>
             </div>
-
             <div id="agentFieldsContainer" class="row">
                 <!-- New fields will be added here dynamically -->
             </div>
-
+    
             <div class="text-end mt-4">
                 <button type="submit" class="btn btn-success">Save</button>
             </div>
