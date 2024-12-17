@@ -635,13 +635,15 @@ def manage_advertisement():
     """Manage advertisement images"""
     if current_user.is_authenticated:
         ad_error_images = []
-        ad_good_images = []
         image_directory = os.path.join('auth', 'static', 'img')
-        existing_agents = [
-        {'name': 'Antoine LENO', 'image': 'agent_1.jpg'},
-        {'name': 'Antoine LENO', 'image': 'agent_1.jpg'},
-        {'name': 'Antoine LENO', 'image': 'agent_1.jpg'}
-        ]
+        all_agents = storage.get_object(Agent, all="yes")
+        existing_agents = []
+        for agent in all_agents:
+            name = agent.agent_name
+            a_image = agent.image_url
+            a_id = agent.id
+            existing_agents.append({'name': name, 'image': a_image, 'id': a_id})
+
         existing_images = [
             filename for filename in os.listdir(image_directory)
             if filename.startswith("adver_image") and os.path.isfile(os.path.join(image_directory, filename))
@@ -669,30 +671,82 @@ def manage_advertisement():
                                 os.remove(os.path.join(ad_image_directory, file))
                         ad_image.seek(0)
                         ad_image.save(ad_image_filename)
-                        ad_good_images.append(i)
 
-            #agent_field_count = int(request.form.get('agentFieldCount', 0))
-            #for i in range(1, agent_field_count + 1):
-            #    agent_image = request.files.get(f'agentImage{i}')
-            #    agent_name = request.form.get(f'agentName{i}')
+            agent_ids = request.form.getlist('agentIds')
+            agent_names = request.form.getlist('agentNames')
+            agent_images = request.files.getlist('agentImages')
+            agent_directory = "auth/static/img/agents"
 
-            #    if agent_image and agent_name:
-            #        agent_image_extension = os.path.splitext(
-            #            agent_image.filename)[1]
-            #        agent_image_filename = os.path.join(
-            #    "auth/static/img", f"agent_{i}{agent_image_extension}"
-            #    )
+            os.makedirs(agent_directory, exist_ok=True)
 
-            #        agent_image.save(agent_image_filename)
-            #        new_agent = Agent()
-            #        setattr(new_agent, "agent_name", agent_name)
-            #        setattr(new_agent, "image_url", agent_image_filename)
-            #       new_agent.save()
+            for idx, agent_id in enumerate(agent_ids):
+                name = agent_names[idx]
+                image = agent_images[idx] if idx < len(agent_images) else None
+
+                agent = storage.get_object(Agent, id=agent_id)
+
+                if name:
+                    agent.agent_name = name
+
+                if image:
+                    try:
+                        pil_image = Image.open(image)
+                        if pil_image.size == (400, 400):
+
+                            _, file_extension = os.path.splitext(secure_filename(image.filename))
+                            image_filename = f"{agent_id}{file_extension}"
+                            image_path = os.path.join(agent_directory, image_filename)
+                
+                            for file in os.listdir(agent_directory):
+                                if file.startswith(f"{agent_id}.") and file != image_filename:
+                                    os.remove(os.path.join(agent_directory, file))
+
+                            pil_image.save(image_path)
+                            agent.image_url = image_filename
+                        else:
+                            print(f"Image for agent {agent_id} is not 400x400 pixels. Skipping.")
+                            ad_error_images.append(1)
+                    except Exception as e:
+                        print(f"Error processing image for agent {agent_id}: {e}")
+                agent.save()
+            try:           
+                agent_field_count = int(request.form.get('agentFieldCount', 0))
+                for i in range(1, agent_field_count + 1):
+                    agent_image = request.files.get(f'agentImage{i}')
+                    agent_name = request.form.get(f'agentName{i}')
+
+                    if agent_image and agent_name:
+                        # Open the image to check its size
+                        image = Image.open(agent_image)
+
+                        # Check if the image is 400x400 pixels
+                        if image.size != (400, 400):
+                            print(f"Skipping image for agent {agent_name}. Image size is not 400x400.")
+                            ad_error_images.append(1)
+                            continue  # Skip this agent if the image size is incorrect
+                        agent_image.seek(0)
+                        # Proceed with saving the image if size is correct
+                        new_agent = Agent()
+                        agent_image_extension = os.path.splitext(agent_image.filename)[1]
+                        agent_image_filename = os.path.join("auth/static/img/agents", f"{new_agent.id}{agent_image_extension}")
+                        image_url = os.path.join(f"{new_agent.id}{agent_image_extension}")
+
+                        # Save the image
+                        agent_image.save(agent_image_filename)
+
+                        # Set the agent's name and image URL
+                        setattr(new_agent, "agent_name", agent_name)
+                        setattr(new_agent, "image_url", image_url)
+                        
+                        # Save the new agent to the database
+                        new_agent.save()
+            except Exception as e:
+                print("Emtpy new agent")
+                pass
             if len(ad_error_images) != 0:
-                flash(f"Image {i} must be exactly 1000px by 1000px.", "error")
-            if len(ad_good_images) != 0:
-                message = """Advertisement successfully Updated"""
-                flash(message, "success")
+                flash("Some images were not updated due to incorrect image sizes. Please ensure all images are 1000*1000 pixel for advertisement images and 400x400 pixels for agent's images", "error")
+            else:
+                flash("Images have been successfully updated.", "success")
             return redirect(url_for('app_views_auth.manage_advertisement'))
 
         return render_template('manage_advertisement.html',
@@ -700,6 +754,24 @@ def manage_advertisement():
                                existing_agents=existing_agents)
     else:
         return render_template('404.html')
+
+
+@app_views_auth.route('/delete-agent-image/<uuid:agent_id>', methods=['DELETE'])
+@login_required
+def delete_agent_image(agent_id):
+    """Delete agent image"""
+    try:
+        agent = storage.get_object(Agent, id==agent_id)
+        agent.delete()
+        storage.save()
+        agent_directory = "auth/static/img/agents"
+        for file in os.listdir(agent_directory):
+            if file.startswith(f"{agent_id}."):
+                os.remove(os.path.join(agent_directory, file))
+    except Exception as e:
+        print(e)
+    finally:
+        return jsonify({'success': 'Image deleted successfully'}), 200
 
 
 def send_email(receiver_email, new_password):
