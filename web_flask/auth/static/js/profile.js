@@ -106,3 +106,37 @@ document.getElementById('subscribeButton').addEventListener('click', function() 
     }
 });
 
+
+// function to delete an agent from advertisement management
+function deleteImage(agentId) {
+    // Confirm the action with the user
+    if (confirm('Are you sure you want to delete this image?')) {
+        
+        // Send an AJAX DELETE request to the server to remove the image
+        fetch(`/auth/delete-agent-image/${agentId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Check if the image was deleted successfully
+            if (data.success) {
+                alert('Image deleted successfully');
+                
+                // Debug: Log to confirm that the page reload logic is being reached
+                console.log("Image deleted, reloading the page...");
+                
+                // Reload the page
+                window.location.href = window.location.href;  // Alternative way to reload the page
+            } else {
+                alert('Failed to delete image');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while deleting the image.');
+        });
+    }
+}

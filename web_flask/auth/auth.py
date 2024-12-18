@@ -655,22 +655,25 @@ def manage_advertisement():
         existing_images = sorted(existing_images, key=extract_number)
         if request.method == "POST":
             for i in range(1, 7):
-                ad_image = request.files.get(f'mainImage{i}')
-                if ad_image:
-                    image = Image.open(ad_image)
-                    if image.size != (1000, 1000):
-                        ad_error_images.append(i)
-                    else:
-                        ad_image_extension = os.path.splitext(ad_image.filename)[1]
-                        ad_image_basename = f"adver_image_{i}"
-                        ad_image_directory = 'auth/static/img'
-                        ad_image_filename = os.path.join(ad_image_directory, f"{ad_image_basename}{ad_image_extension}")
+                try:
+                    ad_image = request.files.get(f'mainImage{i}')
+                    if ad_image:
+                        image = Image.open(ad_image)
+                        if image.size != (1000, 1000):
+                            ad_error_images.append(i)
+                        else:
+                            ad_image_extension = os.path.splitext(ad_image.filename)[1]
+                            ad_image_basename = f"adver_image_{i}"
+                            ad_image_directory = 'auth/static/img'
+                            ad_image_filename = os.path.join(ad_image_directory, f"{ad_image_basename}{ad_image_extension}")
 
-                        for file in os.listdir(ad_image_directory):
-                            if file.startswith(ad_image_basename) and file != f"{ad_image_basename}{ad_image_extension}":
-                                os.remove(os.path.join(ad_image_directory, file))
-                        ad_image.seek(0)
-                        ad_image.save(ad_image_filename)
+                            for file in os.listdir(ad_image_directory):
+                                if file.startswith(ad_image_basename) and file != f"{ad_image_basename}{ad_image_extension}":
+                                    os.remove(os.path.join(ad_image_directory, file))
+                            ad_image.seek(0)
+                            ad_image.save(ad_image_filename)
+                except Exception as e:
+                    ad_error_images.append(1)
 
             agent_ids = request.form.getlist('agentIds')
             agent_names = request.form.getlist('agentNames')
@@ -740,11 +743,13 @@ def manage_advertisement():
                         
                         # Save the new agent to the database
                         new_agent.save()
+            except ValueError:
+                pass
             except Exception as e:
                 print("Emtpy new agent")
-                pass
+                ad_error_images.append(1)
             if len(ad_error_images) != 0:
-                flash("Some images were not updated due to incorrect image sizes. Please ensure all images are 1000*1000 pixel for advertisement images and 400x400 pixels for agent's images", "error")
+                flash("Some images were not updated due to incorrect image sizes or format. Please ensure all images are 1000*1000 pixel for advertisement images and 400x400 pixels for agent's images", "error")
             else:
                 flash("Images have been successfully updated.", "success")
             return redirect(url_for('app_views_auth.manage_advertisement'))
