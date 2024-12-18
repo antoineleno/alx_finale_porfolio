@@ -28,7 +28,7 @@
     
                     <!-- Display the existing image if available -->
                     {% if existing_images[i-1] %}
-                        <img src="{{ url_for('.static', filename='img/' + existing_images[i-1]) }}" alt="Image {{ i }}" class="img-thumbnail mb-2" style="max-width: 100%; height: auto;">
+                        <img src="{{ url_for('.static', filename='img/advertisements/' + existing_images[i-1]) }}" alt="Image {{ i }}" class="img-thumbnail mb-2" style="max-width: 100%; height: auto;">
                     {% endif %}
             
                     <!-- File input for new image -->

@@ -488,14 +488,16 @@
         <!-- Add property Structure End -->
 
         <!-- Flash message -->
-        {% for  message in get_flashed_messages(with_categories=true) %}
+        {% for message in get_flashed_messages(with_categories=true) %}
             <div class="alert alert-dismissible fade show flash-message
                 {% if message[0] == 'error' %} alert-danger {% else %} alert-success {% endif %}" 
-                role="alert" id="flashMessage" style="max-width: 600px; margin: 10px auto; text-align: center;">
+                role="alert" id="flashMessage" 
+                style="max-width: 600px; margin: 10px auto; text-align: center; position: fixed; top: 120px; left: 50%; transform: translateX(-50%); z-index: 9999;">
                 <strong>{{ message[1] }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endfor %}
+
 
 
         <main>
@@ -523,31 +525,20 @@
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Quick Links</h5>
                         <a class="btn btn-link text-white-50" href="{{ url_for('app_view_property.about') }}">Our Services</a>
-                        <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
+                        <a class="btn btn-link text-white-50" href="{{ url_for('app_view_property.property_list') }}">Properties</a>
+                        <a class="btn btn-link text-white-50" href="{{ url_for('app_views_auth.profile') }}">Profile</a>
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Photo Gallery</h5>
                         <div class="row g-2 pt-2">
+                            {% for image in image_filenames %}
                             <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="{{ url_for('.static', filename='img/property-1.jpg') }}" alt="">
+                                <img class="img-fluid rounded bg-light p-1" src="{{ url_for('app_views_auth.static', filename='img/advertisements/' + image) }}" alt="Image">
                             </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="{{ url_for('.static', filename='img/property-2.jpg') }}" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="{{ url_for('.static', filename='img/property-3.jpg') }}" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="{{ url_for('.static', filename='img/property-4.jpg') }}" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="{{ url_for('.static', filename='img/property-5.jpg') }}" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid rounded bg-light p-1" src="{{ url_for('.static', filename='img/property-6.jpg') }}" alt="">
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
+                    
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Newsletter</h5>
                         

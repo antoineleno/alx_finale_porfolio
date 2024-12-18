@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             maxPriceInput.value = minPrice;
         }
 
-        selectedRange.textContent = `Selected: $${minPriceInput.value} - $${maxPriceInput.value}`;
+        selectedRange.textContent = `Selected: GNF${minPriceInput.value} - GNF${maxPriceInput.value}`;
     }
 
     updateSelectedRange();
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     applyPriceRangeBtn.addEventListener('click', () => {
         const minPrice = minPriceInput.value;
         const maxPrice = maxPriceInput.value;
-        priceRangeInput.value = `Price range: $${minPrice} - $${maxPrice}`;
+        priceRangeInput.value = `Price range: GNF${minPrice} - GNF${maxPrice}`;
     });
 });
 

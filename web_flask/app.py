@@ -4,6 +4,7 @@ APP module
 """
 
 from flask import Flask, session
+from flask import redirect, url_for
 from auth import app_views_auth
 from wishlist import app_views_wishlist
 from home import app_views_home
@@ -22,6 +23,7 @@ from auth.forms import SignInForm, SignUpForm, ForgotPasswordForm
 from models.usersubcription import UserSubcription
 from flask_socketio import join_room, leave_room, SocketIO, emit
 import os
+import re
 from datetime import datetime
 
 
@@ -49,21 +51,35 @@ login_manager.login_view = 'app_views_auth.login_view'
 @app.context_processor
 def inject_user():
     """Inject all base variables"""
+    image_directory = os.path.join(
+        'auth', 'static', 'img', 'advertisements'
+        )
     unread_message = 0
     admin_phone_number = ""
     admin_email = ""
     admin_address = ""
     is_subscribed = False
+    image_filenames = [
+        filename for filename in os.listdir(image_directory)
+        if filename.startswith("adver_image") and
+        os.path.isfile(os.path.join(image_directory, filename))
+    ]
+
+    def extract_number(file):
+        match = re.search(r"(\d+)", file)
+        return int(match.group(1)) if match else 0
+
+    image_filenames = sorted(image_filenames, key=extract_number)
     admin_object = storage.get_object(User, user_type="Admin")
     if admin_object is not None:
         admin_phone_number = admin_object.phone_number
         admin_email = admin_object.email
         admin_address = admin_object.address
 
-
     if current_user.is_authenticated:
         user_id = current_user.id
-        user_subscription = storage.get_object(UserSubcription, user_id=current_user.id)
+        user_subscription = storage.get_object(
+            UserSubcription, user_id=current_user.id)
         is_subscribed = True if user_subscription is not None else False
         user = storage.get_object(User, id=user_id)
         all_user_room = user.roomparticipants
@@ -104,7 +120,8 @@ def inject_user():
         'admin_address': admin_address,
         'admin_email': admin_email,
         'forgot_password_form': ForgotPasswordForm(),
-        'is_subscribed': is_subscribed
+        'is_subscribed': is_subscribed,
+        'image_filenames': image_filenames
     }
 
 
@@ -195,6 +212,11 @@ def handle_message(data):
     except KeyError as e:
         print(f"Error: Missing key {e}")
         emit("error", {"message": "Invalid message format"})
+
+
+@app.route('/')
+def home():
+    return redirect(url_for('app_view_home.home'))
 
 
 if __name__ == "__main__":

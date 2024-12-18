@@ -15,6 +15,8 @@ from models.whishlist import Whishlist
 from models.review import Review
 from models.property_image import Property_image
 from models.message import Message, Room, RoomParticipants
+from sqlalchemy import distinct
+
 base_dir = os.path.dirname(__file__)
 parent_dir = os.path.join(base_dir, '..', '..')
 sys_path = os.path.abspath(parent_dir)
@@ -110,11 +112,10 @@ class DBStorage:
         self.__session.remove() # use of remove instead of close in scooped_session
 
     def get_object(self, cls, sign=None, all=None, order_by=None,
-                   limit=None,
-                   count=False, **kwargs):
+                limit=None, count=False, distinct=False, **kwargs):
         """
         Get all objects or only one object based on filters.
-        Optionally count the results.
+        Optionally count the results or apply DISTINCT.
 
         Args:
             cls: The model class to query.
@@ -125,6 +126,7 @@ class DBStorage:
             limit: An integer specifying the maximum number
                 of results to return.
             count: If True, returns the count of results based on the filters.
+            distinct: If True, applies DISTINCT to the query.
             **kwargs: Key-value pairs for filtering.
 
         Returns:
@@ -148,23 +150,16 @@ class DBStorage:
         if kwargs:
             for key, value in kwargs.items():
                 if sign in operators:
-                    query = query.filter(operators[sign](getattr(cls, key),
-                                                         value))
+                    query = query.filter(operators[sign](getattr(cls, key), value))
                 else:
                     raise ValueError(f"Invalid comparison operator: {sign}")
-        if count:
-            if (
-                "room_id" in kwargs and
-                "user_id" in kwargs and
-                "read_status" in kwargs
-            ):
-                query = self.__session.query(cls).filter(
-                    cls.room_id == kwargs.get("room_id"),
-                    cls.user_id != kwargs.get("user_id"),
-                    cls.read_status == False
-                )
+        
+        if distinct:
+            query = query.distinct()
 
-                return query.count()
+        if count:
+            return query.count()
+
         if order_by:
             column, direction = order_by
             if direction.lower() == 'desc':
@@ -179,6 +174,13 @@ class DBStorage:
         if all is not None:
             return query.all()
         return query.first()
+
+
+    def get_agent(self, agent_id):
+        """Get an agent object by its ID"""
+        agent = self.__session.query(Agent).filter(Agent.id == str(agent_id)).first()
+        return agent
+
 
     def property_objs(self, per_page, offset, property_type=None, country=None, 
                       city=None, max_price=None, min_price=None, listing_type=None):
