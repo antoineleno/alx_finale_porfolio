@@ -8,7 +8,6 @@ from models.property import Property
 from models.property_image import Property_image
 import os
 import re
-from models.agent import Agent
 from models.user import User
 
 
@@ -30,10 +29,6 @@ def home():
 
     existing_images = sorted(existing_images, key=extract_number)
 
-    all_agents = storage.get_object(Agent, all="yes")
-    agents = []
-    for agent in all_agents:
-        agents.append({'name': agent.agent_name, 'image': agent.image_url})
     admin_object = storage.get_object(User, user_type="Admin")
     admin_email = admin_object.email
     admin_phone_number = admin_object.phone_number
@@ -88,7 +83,6 @@ def home():
                            countries=countries, feature=feature,
                            window="home",
                            existing_images=existing_images,
-                           agents=agents,
                            admin_email=admin_email,
                            admin_phone_number=admin_phone_number)
 
@@ -99,5 +93,4 @@ def get_cities(country):
     cities = storage.get_cities(country)
     # Flatten the list of tuples into a simple list of cities
     cities_list = [city[0] for city in cities]
-
     return jsonify(cities_list)

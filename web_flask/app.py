@@ -17,6 +17,7 @@ from flask_cors import CORS
 from flask_login import LoginManager
 from models import storage
 from models.user import User
+from models.agent import Agent
 from models.message import Message, RoomParticipants
 from flask_login import current_user
 from auth.forms import SignInForm, SignUpForm, ForgotPasswordForm
@@ -54,6 +55,8 @@ def inject_user():
     image_directory = os.path.join(
         'auth', 'static', 'img', 'advertisements'
         )
+
+
     unread_message = 0
     admin_phone_number = ""
     admin_email = ""
@@ -64,7 +67,10 @@ def inject_user():
         if filename.startswith("adver_image") and
         os.path.isfile(os.path.join(image_directory, filename))
     ]
-
+    all_agents = storage.get_object(Agent, all="yes")
+    agents = []
+    for agent in all_agents:
+        agents.append({'name': agent.agent_name, 'image': agent.image_url})
     def extract_number(file):
         match = re.search(r"(\d+)", file)
         return int(match.group(1)) if match else 0
@@ -121,6 +127,7 @@ def inject_user():
         'admin_email': admin_email,
         'forgot_password_form': ForgotPasswordForm(),
         'is_subscribed': is_subscribed,
+        'agents': agents,
         'image_filenames': image_filenames
     }
 

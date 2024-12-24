@@ -12,6 +12,8 @@ from models.property_image import Property_image
 from flask_login import login_required, current_user
 from models.user import User
 from models import storage
+from PIL import Image
+import PIL
 
 
 @login_required
@@ -25,13 +27,13 @@ def upload_property():
     # Collecting basic property data
     new_property = Property()
     new_property.user_id = current_user.id # current user
-    new_property.title = request.form.get('title')
+    new_property.title = request.form.get('title').title()
     new_property.description = request.form.get('description')
     new_property.property_type = request.form.get('propertyType')
     new_property.price = request.form.get('price', type=float)
     if new_property.price < 0 or new_property.price is None:
         new_property.price = 0
-    new_property.listing_type = request.form.get('listing_type')
+    new_property.listing_type = request.form.get('listing_type').title()
     new_property.address = request.form.get('address')
     new_property.city = request.form.get('city')
     new_property.state = request.form.get('state')
@@ -46,14 +48,34 @@ def upload_property():
     new_property.area = request.form.get('area', type=float)
     if new_property.area < 0 or new_property.area is None:
         new_property.area = 0
-    
-    new_property.save()
 
     # Collect additional images and descriptions
     main_image = request.files.get('mainImage')
     additional_images = request.files.getlist('additionalImages')
     additional_descriptions = request.form.getlist('additionalDescriptions')
+    all_images = additional_images
+    if not main_image or main_image.filename == '':
+        flash("Main image is required.", "error")
+        return redirect(url_for('app_view_home.home'))
 
+    if main_image:
+        all_images = additional_images + [main_image]
+    else:
+        all_images = additional_images
+
+    for checking_image in all_images:
+        if checking_image and checking_image.filename:
+            try:
+                pro_image = Image.open(checking_image)
+                if pro_image.size != (600, 400):
+                    flash("Property images must be 600 x 400 pixels.", "error")
+                    return redirect(url_for('app_view_home.home'))
+            except PIL.UnidentifiedImageError:
+                flash("Invalid image file.", "error")
+                return redirect(url_for('app_view_home.home'))
+        checking_image.seek(0)
+
+    new_property.save()
     # Save the main image
     if main_image:
         new_image = Property_image()
@@ -90,6 +112,7 @@ def upload_property():
     else:
         # Handle mismatch between image and description counts if necessary
         flash("Mismatch between additional images and descriptions!", 'error')
+        return redirect(url_for('app_view_home.home'))
 
     flash("Property added successfully!", 'success')
     return redirect(url_for('app_view_action.my_properties', listing_type="featured"))

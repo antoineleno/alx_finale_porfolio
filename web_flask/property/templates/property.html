@@ -56,6 +56,7 @@
                     </div>
                 </div>
             </div>
+            {% if property.Main_entrance %}
             <div class="container mt-5">
                 <div class="row align-items-center"> <!-- Row for aligning items -->
                     <div class="col-md-6"> <!-- Column for the title -->
@@ -68,6 +69,8 @@
                     </div>
                 </div>
             </div>
+            {% endif %}         
+            {% if property.kitchen %}   
             <div class="container mt-5">
                 <div class="row align-items-center">
                     <div class="col-md-6">
@@ -80,6 +83,8 @@
                     </div>
                 </div>
             </div>
+            {% endif %}   
+            {% if property.living_room %} 
             <div class="container mt-5">
                 <div class="row align-items-center">
                     <div class="col-md-6">
@@ -92,6 +97,8 @@
                     </div>
                 </div>
             </div>
+            {% endif %}  
+            {% if property.bedroom %}
             <div class="container mt-5">
                 <div class="row align-items-center">
                     <div class="col-md-6">
@@ -103,6 +110,8 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
+            {% if property.bathroom %}
             <div class="container mt-5">
                 <div class="row align-items-center">
                     <div class="col-md-6">
@@ -115,6 +124,8 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
+            {% if property.balcony %}
             <div class="container mt-5">
                 <div class="row align-items-center">
                     <div class="col-md-6">
@@ -126,7 +137,8 @@
                         </a>
                     </div>
                 </div>
-            </div>                  
+            </div>
+            {% endif %}                 
         </div>
     </div>
     <!-- Property List End -->
