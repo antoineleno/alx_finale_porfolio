@@ -7,6 +7,7 @@ from models import storage
 from models.property import Property
 from models.user import User
 from flask_login import current_user
+from models.transaction import Subcription, Transaction
 
 
 @app_views_property.route("/description/<property_id>", methods=["GET"])
@@ -130,26 +131,49 @@ def page_generation():
                                           min_price, feature)
 
     property_list = []
+    subcription = storage.get_object(Subcription)
+    if subcription.status != 'Suspended':
+        all_pro_sub_ids = []
+        all_subcribers = storage.get_object(Transaction, all=True) 
+        for sub in all_subcribers:
+            all_pro_sub_ids.append(sub.id)
+
     for obj in property_objs:
         # Retrieve property images and select the main image URL
         main_image_obj = storage.get_image(obj.id, "Main_image")
 
-        # Append property details to the list
-        property_list.append({
-            "id": obj.id,
-            "title": obj.title,
-            "property_type": obj.property_type.title(),
-            "price": obj.price,
-            "listing_type": obj.listing_type,
-            "address": obj.address,
-            "city": obj.city,
-            "country": obj.country,
-            "bedrooms": obj.bedrooms,
-            "bathrooms": obj.bathrooms,
-            "area": obj.area,
-            "Main_image_url": main_image_obj.image_url
-        })
-
+        if subcription.status == "Suspended":
+            # Append property details to the list
+            property_list.append({
+                "id": obj.id,
+                "title": obj.title,
+                "property_type": obj.property_type.title(),
+                "price": obj.price,
+                "listing_type": obj.listing_type,
+                "address": obj.address,
+                "city": obj.city,
+                "country": obj.country,
+                "bedrooms": obj.bedrooms,
+                "bathrooms": obj.bathrooms,
+                "area": obj.area,
+                "Main_image_url": main_image_obj.image_url
+            })
+        else:
+            if obj.id in all_pro_sub_ids:
+                property_list.append({
+                    "id": obj.id,
+                    "title": obj.title,
+                    "property_type": obj.property_type.title(),
+                    "price": obj.price,
+                    "listing_type": obj.listing_type,
+                    "address": obj.address,
+                    "city": obj.city,
+                    "country": obj.country,
+                    "bedrooms": obj.bedrooms,
+                    "bathrooms": obj.bathrooms,
+                    "area": obj.area,
+                    "Main_image_url": main_image_obj.image_url
+                })
     return jsonify({"properties": property_list})
 
 

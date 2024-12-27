@@ -5,7 +5,7 @@ from home import app_views_home
 from flask import render_template, jsonify, request
 from models import storage
 from models.property import Property
-from models.property_image import Property_image
+from models.transaction import Subcription, Transaction
 import os
 import re
 from models.user import User
@@ -57,19 +57,35 @@ def home():
         property_objs = storage.property_objs(per_page, 0, listing_type="rent")
 
     property_list = []
+    subcription = storage.get_object(Subcription)
+    if subcription.status != 'Suspended':
+        all_pro_sub_ids = []
+        all_subcribers = storage.get_object(Transaction, all=True) 
+        for sub in all_subcribers:
+            all_pro_sub_ids.append(sub.id)
 
     for obj in property_objs:
-
         Main_image_obj = storage.get_image(obj.id, "Main_image")
-
-        property_list.append({"id": obj.id, "title": obj.title,
-                              "property_type": obj.property_type.title(),
-                              "price": obj.price,
-                              "listing_type": obj.listing_type,
-                              "address": obj.address, "city": obj.city,
-                              "country": obj.country, "bedrooms": obj.bedrooms,
-                              "bathrooms": obj.bathrooms, "area": obj.area,
-                              "Main_image_url": Main_image_obj.image_url})
+        if subcription.status == "Suspended":
+            property_list.append({"id": obj.id, "title": obj.title,
+                                "property_type": obj.property_type.title(),
+                                "price": obj.price,
+                                "listing_type": obj.listing_type,
+                                "address": obj.address, "city": obj.city,
+                                "country": obj.country, "bedrooms": obj.bedrooms,
+                                "bathrooms": obj.bathrooms, "area": obj.area,
+                                "Main_image_url": Main_image_obj.image_url})
+        else:
+            if obj.id in all_pro_sub_ids:
+                property_list.append({"id": obj.id, "title": obj.title,
+                                    "property_type": obj.property_type.title(),
+                                    "price": obj.price,
+                                    "listing_type": obj.listing_type,
+                                    "address": obj.address, "city": obj.city,
+                                    "country": obj.country, "bedrooms": obj.bedrooms,
+                                    "bathrooms": obj.bathrooms, "area": obj.area,
+                                    "Main_image_url": Main_image_obj.image_url})
+            
 
     Number_per_type = {"apartment": storage.count(Property, "apartment"),
                        "villa": storage.count(Property, "villa"),
