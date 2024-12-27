@@ -1,4 +1,5 @@
 -- Enable the Event Scheduler
+use roofmarket_db;
 SET GLOBAL event_scheduler = ON;
 
 -- Drop the Event if it Already Exists
