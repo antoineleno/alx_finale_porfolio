@@ -75,7 +75,7 @@
             </div>
             <br>
                 <!-- Subscription -->
-            {% if user_type == 'Supplier' or user_type == 'Admin' %}
+            {% if user_type == 'Supplier' %}
             <div class="col-md-6 mb-3"> <!-- Added mb-3 for bottom margin -->
                 <label class="form-label fw-bold">Subscription :</label>
                 <a href="{{ url_for('app_views_auth.property_subcription')}}">View property subscription</a>
@@ -89,7 +89,7 @@
     <div class="d-flex justify-content-center align-items-center">
         <!-- Update button to enable editing -->
         <button class="btn btn-primary mx-2" id="toggleUpdateBtn" style="border-radius: 20px;">Update Information</button>
-        {% if (user_type == 'Supplier' or user_type == 'Admin') and s_status == 'Active' %}
+        {% if (user_type == 'Supplier') and s_status == 'Active' %}
         <!-- Boost Property Button -->
         <button id="subscribeButton" class="mx-2" style="background-color: #FF9800; color: black; border: none; padding: 7px 14px; cursor: pointer; border-radius: 20px;">Boost Property</button>
         {% endif %}

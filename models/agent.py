@@ -11,5 +11,5 @@ class Agent(BaseModel, Base):
 
     __tablename__ = "agent"
 
-    agent_name= Column(String(60), nullable=False)
+    agent_name = Column(String(60), nullable=False)
     image_url = Column(String(60), nullable=False)

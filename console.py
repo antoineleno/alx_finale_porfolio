@@ -10,14 +10,13 @@ from models.property import Property
 from models.transaction import Transaction
 from models.whishlist import Whishlist
 from models.user import User
+from models.transaction import Subcription
 from models.property_image import Property_image
 from models.message import Message, Room
-from models.review import Review
 from models import storage
 
 import sys
 import shlex
-
 
 
 class ROOFMARKETCommand(cmd.Cmd):
@@ -25,9 +24,11 @@ class ROOFMARKETCommand(cmd.Cmd):
     prompt = '(RoofMarket) ' if sys.__stdin__.isatty() else ''
     classes = {
                'BaseModel': BaseModel, 'User': User, 'Property': Property,
-               'Agent': Agent, 'Transaction': Transaction, 'Whishlist': Whishlist,
+               'Agent': Agent, 'Transaction': Transaction,
+               'Whishlist': Whishlist,
                'Property_image': Property_image,
-               'Message': Message, 'Review': Review, 'Room': Room
+               'Message': Message, 'Room': Room,
+               'Subcription': Subcription
               }
 
     def do_quit(self, line):
@@ -65,11 +66,9 @@ class ROOFMARKETCommand(cmd.Cmd):
             new_instance.save()
             print(new_instance.id)
 
-
     def do_destroy(self, args):
         """Delete an object or row from the database
         Usage: destroy class_name object_id
-        
         """
         arguments = shlex.split(args)
         if not args:
@@ -87,7 +86,6 @@ class ROOFMARKETCommand(cmd.Cmd):
                 value.delete()
                 storage.save()
 
-    def do_all(self, args):  
-        print(storage.get_object(User))     
+
 if __name__ == '__main__':
     ROOFMARKETCommand().cmdloop()

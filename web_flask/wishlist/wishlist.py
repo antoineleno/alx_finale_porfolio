@@ -57,8 +57,8 @@ def wishlist():
                 'area': property.area,
                 'bedrooms': property.bedrooms,
                 'bathrooms': property.bathrooms,
-                'picture_link': storage.get_image(property.id, "Main_image").image_url
-                # find_image_path(property.id)
+                'picture_link': storage.get_image(property.id,
+                                                  "Main_image").image_url
             }
             property_attributes.append(values)
 
@@ -68,19 +68,6 @@ def wishlist():
                                wishlist_type=wishlist_type)
     else:
         return render_template('404.html')
-
-
-def find_image_path(image_id):  # NO need
-    """find image_path"""
-    file_names = os.listdir("property/static/img/")
-    extensions = [".png", ".jpg", ".jpeg", ".gif"]
-    matching_files = [
-        f for f in file_names
-        if f.startswith(str(image_id) + '_p') and
-        any(f.endswith(ext) for ext in extensions)
-    ]
-    if matching_files:
-        return matching_files[0]
 
 
 @app_views_wishlist.route('/delete_property/<string:property_id>',
@@ -100,17 +87,21 @@ def add_to_wishlist(property_id):
     """ Add a property to the wishlist"""
     if current_user.is_authenticated:
         new_record = Whishlist()
-        new_record.user_id = current_user.id #Current User
-        inside =  any(property_id in item for item in storage.all_wishlist_for_user(current_user.id))
+        new_record.user_id = current_user.id
+        a = current_user.id
+        inside = any(
+            property_id in item for item in storage.all_wishlist_for_user(a))
         if not inside:
             new_record.property_id = property_id
             new_record.save()
             flash("Property successfully added to wishlist!", "success")
         else:
             flash("Property already in wishlist!", "error")
-        return redirect(url_for('app_view_property.property_onclick', property_id=property_id))
+        return redirect(url_for('app_view_property.property_onclick',
+                                property_id=property_id))
     else:
-        message = """You need to log in before adding a property to your wishlist."""
+        message = """You need to log in
+        before adding a property to your wishlist."""
         flash(message, "error")
         return redirect(url_for('app_view_property.property_onclick',
-                                    property_id=property_id))
+                                property_id=property_id))

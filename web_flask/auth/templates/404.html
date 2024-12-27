@@ -16,8 +16,8 @@
                         </ol>
                     </nav>
                 </div>
-                <div class="col-md-6 animated fadeIn">
-                    <img class="img-fluid" src="{{ url_for('.static', filename='img/header.jpg') }}" alt="">
+                <div class="col-md-6 animated fadeIn text-end ms-auto">
+                    <img class="img-fluid" src="{{ url_for('app_views_auth.static', filename='../../static/uploads/' + sub_adver_image) }}" alt="">
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                         <h1 class="display-1">404</h1>
                         <h1 class="mb-4">Page Not Found</h1>
                         <p class="mb-4">We apologize, but the page you are looking for cannot be found on our website. Please consider returning to our homepage or using the search feature to find the information you need.</p>
-                        <a class="btn btn-primary py-3 px-5" href="index.html">Go Back To Home</a>
+                        <a class="btn btn-primary py-3 px-5" href="{{ url_for('app_view_home.home') }}">Go Back To Home</a>
                     </div>
                 </div>
             </div>

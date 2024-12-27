@@ -119,7 +119,8 @@ def forget_password():
             user.password = new_password
             storage.save()
 
-            send_email(email=email, html_file="email.html", new_password=new_password, property_link=None)
+            send_email(email=email, html_file="email.html",
+                       new_password=new_password, property_link=None)
             message = """A password reset message has been
             sent to your email address.
             """
@@ -138,6 +139,7 @@ def base():
     return render_template('base.html')
 
 
+@login_required
 @app_views_auth.route('/messages', methods=['GET'])
 def get_messages():
     """Get all inbox converstaions"""
@@ -183,7 +185,7 @@ def get_messages():
                 "/auth/static/img/"
                 + contact_image_url
             )
-            
+
             if latest_message:
                 content['latest_message'] = (
                     latest_message.message[:35] + "..."
@@ -202,6 +204,7 @@ def get_messages():
         return jsonify(messages_data)
 
 
+@login_required
 @app_views_auth.route('/new_conversation', methods=['GET', 'POST'])
 def new_conversation():
     """Create a new room for a user"""
@@ -209,18 +212,18 @@ def new_conversation():
     if current_user.is_authenticated:
         message_property = storage.get_object(Property, id=property_id)
         property_owner_id = message_property.user_id
-        if property_owner_id != current_user.id :
+        if property_owner_id != current_user.id:
             if request.method == "POST":
                 show_modal = "yes"
 
                 current_user_id = request.form.get('current_user_id')
                 receiver_id = request.form.get('receiver_id')
                 room_checking_1 = storage.get_object(RoomParticipants,
-                                                    user_id=current_user_id,
-                                                    property_id=property_id)
+                                                     user_id=current_user_id,
+                                                     property_id=property_id)
                 room_checking_2 = storage.get_object(RoomParticipants,
-                                                    user_id=receiver_id,
-                                                    property_id=property_id)
+                                                     user_id=receiver_id,
+                                                     property_id=property_id)
                 if room_checking_1 is not None and room_checking_2 is not None:
                     s = room_checking_1.room_id == room_checking_2.room_id
                     if room_checking_1 and room_checking_2 and s:
@@ -228,39 +231,46 @@ def new_conversation():
                         room_checking_2.updated_at = datetime.datetime.utcnow()
                         room_checking_1.save()
                         room_checking_2.save()
-                        return redirect(url_for('app_view_property.property_onclick',
-                                                property_id=property_id,
-                                                show_modal=show_modal))
+                        return redirect(url_for(
+                            'app_view_property.property_onclick',
+                            property_id=property_id,
+                            show_modal=show_modal))
                 else:
                     new_room = Room()
-                    first_room_participant = RoomParticipants(user_id=current_user_id,
-                                                            property_id=property_id,
-                                                            room_id=new_room.id)
-                    second_room_participant = RoomParticipants(user_id=receiver_id,
-                                                            property_id=property_id,
-                                                            room_id=new_room.id)
+                    first_room_participant = RoomParticipants(
+                        user_id=current_user_id,
+                        property_id=property_id,
+                        room_id=new_room.id)
+                    second_room_participant = RoomParticipants(
+                        user_id=receiver_id,
+                        property_id=property_id,
+                        room_id=new_room.id)
                     new_room.save()
                     first_room_participant.save()
                     second_room_participant.save()
                     message = Message(user_id=current_user_id,
-                                    room_id=new_room.id,
-                                    message="New conversation opened!")
+                                      room_id=new_room.id,
+                                      message="New conversation opened!")
                     message.save()
                     update_online_status(False)
-                    return redirect(url_for('app_view_property.property_onclick', show_modal=show_modal,
-                                            property_id=property_id))
+                    return redirect(
+                        url_for('app_view_property.property_onclick',
+                                show_modal=show_modal,
+                                property_id=property_id))
         else:
-            message = """You are the owner of this property. You can't contact yourself."""
+            message = """You are the owner of this property.
+            You can't contact yourself."""
             flash(message, "error")
             return redirect(url_for('app_view_property.property_onclick',
                                     property_id=property_id))
     else:
-       message = """You need to log in before contacting the listing agent!"""
-       flash(message, "error")
-       return redirect(url_for('app_view_property.property_onclick', property_id=property_id))
+        message = """You need to log in before contacting the listing agent!"""
+        flash(message, "error")
+        return redirect(url_for('app_view_property.property_onclick',
+                                property_id=property_id))
 
 
-
+@login_required
 @app_views_auth.route('/messages/<room_id>', methods=['GET'])
 def get_conversation(room_id):
     """Return messages for a specific conversation."""
@@ -358,8 +368,8 @@ def user_subription():
                 flash(message, 'success')
                 return redirect(url_for('app_view_home.home'))
             else:
-                user_subription = storage.get_object(UserSubcription,
-                                                     user_email=current_user.email)
+                user_subription = storage.get_object(
+                    UserSubcription, user_email=current_user.email)
                 user_subription.delete()
                 storage.save()
                 message = """You have successfully unsubscribed.
@@ -407,13 +417,13 @@ def profile():
                 image_dirtory = 'auth/static/img'
                 for file in os.listdir(image_dirtory):
                     img = (file.startswith(user_id) and
-                            file != f"{user_id}"
-                            f"{filename}")
+                           file != f"{user_id}"
+                           f"{filename}")
                     if img:
                         os.remove(os.path.join(
                             image_dirtory, file))
                 profile_file.save(os.path.join('auth', 'static', 'img',
-                                       filename))
+                                               filename))
                 user.profile_image = filename
             old_password = request.form.get('old_password')
             new_password = request.form.get('new_password')
@@ -545,7 +555,7 @@ def property_subcription():
     property_attributes = []
     wishlist_type = ""
 
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and current_user.user_type == "Supplier":
         user = storage.get_object(User, id=current_user.id)
         all_properties = user.properties
 
@@ -582,7 +592,7 @@ def property_subcription():
 @app_views_auth.route('/admin', methods=['GET'])
 def admin_panel():
     """Admin control panel"""
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and current_user.user_type == "Admin":
         user = storage.get_object(User, id=current_user.id)
         full_name = user.first_name + " " + user.last_name
         return render_template('control_panel.html', full_name=full_name)
@@ -594,7 +604,7 @@ def admin_panel():
 @app_views_auth.route('/subcription', methods=['GET', 'POST'])
 def manage_subcription():
     """Subcription control panel"""
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and current_user.user_type == "Admin":
         if request.method == "POST":
             action = request.form.get('action')
             subcription = storage.get_object(Subcription, all="true")
@@ -631,7 +641,7 @@ def manage_subcription():
 @app_views_auth.route('/users', methods=['GET', 'POST'])
 def manage_users():
     """Manage users"""
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and current_user.user_type == "Admin":
         if request.method == "POST":
             user_email = request.form.get('user_email')
             user = storage.get_object(User, email=user_email)
@@ -666,7 +676,7 @@ def manage_users():
 @app_views_auth.route('/advertisement', methods=['POST', 'GET'])
 def manage_advertisement():
     """Manage advertisement images"""
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and current_user.user_type == "Admin":
         ad_error_images = []
         image_directory = os.path.join(
             'auth', 'static', 'img', 'advertisements'
@@ -837,16 +847,15 @@ def send_email(**kwars):
     using an external HTML template.
     """
     receiver_email = kwars.get('email')
-    print(kwars)
+
     html_file = kwars.get('html_file')
-    new_password= kwars.get('new_password')
-    property_link= kwars.get('property_link')
+    new_password = kwars.get('new_password')
+    property_link = kwars.get('property_link')
 
     email = "lenomadeleineantoine@gmail.com"
     subject = "Password Reset Request - Roofmarket"
-    if new_password == None:
+    if new_password is None:
         subject = "🏠 New Property Just Listed – Don’t Miss Out!"
-    
 
     current_year = datetime.datetime.now().year
 
@@ -854,10 +863,11 @@ def send_email(**kwars):
         html_content = f.read()
 
     html_content = html_content.replace("{{ email }}", receiver_email)
-    if new_password != None:
+    if new_password is not None:
         html_content = html_content.replace("{{ password }}", new_password)
     else:
-        html_content = html_content.replace("{{ property_link }}", str(property_link))
+        html_content = html_content.replace("{{ property_link }}",
+                                            str(property_link))
     html_content = html_content.replace("{{ current_year }}",
                                         str(current_year))
 

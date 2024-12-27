@@ -8,7 +8,6 @@ from models.property import Property
 from models.transaction import Transaction
 from models.whishlist import Whishlist
 from models.message import Message
-from models.review import Review
 from models.usersubcription import UserSubcription
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
@@ -33,11 +32,7 @@ class User(BaseModel, Base, UserMixin):
                                 cascade="all, delete-orphan")
     whishlists = relationship("Whishlist", back_populates="user",
                               cascade="all, delete-orphan")
-    reviews = relationship("Review", back_populates="user",
-                           cascade="all, delete-orphan")
     roomparticipants = relationship("RoomParticipants", back_populates="user")
-
-
 
     @property
     def password(self):
@@ -52,7 +47,3 @@ class User(BaseModel, Base, UserMixin):
 
     def __str__(self):
         return '<User %r>' % User.id
-
-
-
-

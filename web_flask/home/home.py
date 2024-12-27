@@ -60,7 +60,7 @@ def home():
     subcription = storage.get_object(Subcription)
     if subcription.status != 'Suspended':
         all_pro_sub_ids = []
-        all_subcribers = storage.get_object(Transaction, all=True) 
+        all_subcribers = storage.get_object(Transaction, all=True)
         for sub in all_subcribers:
             all_pro_sub_ids.append(sub.id)
 
@@ -68,29 +68,36 @@ def home():
         Main_image_obj = storage.get_image(obj.id, "Main_image")
         if subcription.status == "Suspended":
             property_list.append({"id": obj.id, "title": obj.title,
-                                "property_type": obj.property_type.title(),
-                                "price": obj.price,
-                                "listing_type": obj.listing_type,
-                                "address": obj.address, "city": obj.city,
-                                "country": obj.country, "bedrooms": obj.bedrooms,
-                                "bathrooms": obj.bathrooms, "area": obj.area,
-                                "Main_image_url": Main_image_obj.image_url})
+                                  "property_type": obj.property_type.title(),
+                                  "price": obj.price,
+                                  "listing_type": obj.listing_type,
+                                  "address": obj.address,
+                                  "city": obj.city,
+                                  "country": obj.country,
+                                  "bedrooms": obj.bedrooms,
+                                  "bathrooms": obj.bathrooms,
+                                  "area": obj.area,
+                                  "Main_image_url": Main_image_obj.image_url})
         else:
             if obj.id in all_pro_sub_ids:
                 property_list.append({"id": obj.id, "title": obj.title,
-                                    "property_type": obj.property_type.title(),
-                                    "price": obj.price,
-                                    "listing_type": obj.listing_type,
-                                    "address": obj.address, "city": obj.city,
-                                    "country": obj.country, "bedrooms": obj.bedrooms,
-                                    "bathrooms": obj.bathrooms, "area": obj.area,
-                                    "Main_image_url": Main_image_obj.image_url})
-            
+                                      "property_type":
+                                      obj.property_type.title(),
+                                      "price": obj.price,
+                                      "listing_type": obj.listing_type,
+                                      "address": obj.address, "city": obj.city,
+                                      "country": obj.country,
+                                      "bedrooms": obj.bedrooms,
+                                      "bathrooms":
+                                      obj.bathrooms,
+                                      "area": obj.area,
+                                      "Main_image_url":
+                                      Main_image_obj.image_url})
 
-    Number_per_type = {"apartment": storage.count(Property, "apartment"),
-                       "villa": storage.count(Property, "villa"),
-                       "studio": storage.count(Property, "studio"),
-                       "house": storage.count(Property, "house")}
+    Number_per_type = {"Apartment": storage.count(Property, "Apartment"),
+                       "Villa": storage.count(Property, "Villa"),
+                       "Studio": storage.count(Property, "Studio"),
+                       "House": storage.count(Property, "House")}
 
     countries = storage.get_countries()
 

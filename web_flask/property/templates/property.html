@@ -13,7 +13,7 @@
                 <br>
                 <h1 class="display-5 animated fadeIn mb-4">{{ property.title }}</h1>
                 <h2 class="text-primary mb-4">
-                    GNF {{ property.price }} {% if property.listing_type == "rent" %} <sub style="color: green; font-size: 0.8rem;">/month</sub> {% endif %}
+                    GNF {{ property.price }} {% if property.listing_type == "Rent" %} <sub style="color: green; font-size: 0.8rem;">/month</sub> {% endif %}
                 </h2> <!-- Price of the property -->
                 <a href="{{url_for('app_views_wishlist.add_to_wishlist', property_id=property.id)}}">
                     <button class="btn btn-outline-primary mb-3">

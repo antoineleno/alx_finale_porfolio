@@ -24,6 +24,7 @@ from auth.forms import SignInForm, SignUpForm, ForgotPasswordForm
 from models.usersubcription import UserSubcription
 from flask_socketio import join_room, leave_room, SocketIO, emit
 import os
+import random
 import re
 from datetime import datetime
 
@@ -56,7 +57,6 @@ def inject_user():
         'auth', 'static', 'img', 'advertisements'
         )
 
-
     unread_message = 0
     admin_phone_number = ""
     admin_email = ""
@@ -71,6 +71,7 @@ def inject_user():
     agents = []
     for agent in all_agents:
         agents.append({'name': agent.agent_name, 'image': agent.image_url})
+
     def extract_number(file):
         match = re.search(r"(\d+)", file)
         return int(match.group(1)) if match else 0
@@ -116,7 +117,13 @@ def inject_user():
 
         if matching_files:
             profile_path = matching_files[0]
-
+    sub_adver_images = os.listdir("static/uploads/")
+    matching_images = [
+        f for f in sub_adver_images
+        if 'Main_image' in f
+    ]
+    random_int = random.randint(0, len(matching_images) - 1)
+    sub_adver_image = matching_images[random_int]
     return {
         'user': current_user,
         'profile_path': profile_path,
@@ -129,6 +136,7 @@ def inject_user():
         'forgot_password_form': ForgotPasswordForm(),
         'is_subscribed': is_subscribed,
         'agents': agents,
+        'sub_adver_image': sub_adver_image,
         'image_filenames': image_filenames
     }
 

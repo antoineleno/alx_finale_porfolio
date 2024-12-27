@@ -16,6 +16,3 @@ class Whishlist(BaseModel, Base):
     user = relationship("User", back_populates="whishlists")
 
     properties = relationship("Property", back_populates="whishlists")
-
-
-    

@@ -13,9 +13,9 @@ class BaseModel:
     """A base class for all hbnb models"""
     id = Column(String(60), nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False,
-                                     default=datetime.utcnow)
+                        default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False,
-                                     default=datetime.utcnow)
+                        default=datetime.utcnow)
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
@@ -28,11 +28,13 @@ class BaseModel:
             if 'created_at' not in kwargs:
                 self.created_at = datetime.utcnow()
             else:
-                self.created_at = datetime.strptime(kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                self.created_at = datetime.strptime(kwargs['created_at'],
+                                                    '%Y-%m-%dT%H:%M:%S.%f')
             if 'updated_at' not in kwargs:
                 self.updated_at = datetime.utcnow()
             else:
-                self.updated_at = datetime.strptime(kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                self.updated_at = datetime.strptime(kwargs['updated_at'],
+                                                    '%Y-%m-%dT%H:%M:%S.%f')
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.utcnow()
@@ -71,4 +73,3 @@ class BaseModel:
         (models.storage) by calling the method delete
         """
         storage.delete(self)
-        

@@ -15,12 +15,14 @@ def property_onclick(property_id):
     """When property clicked"""
     show_modal = request.args.get('show_modal')
     print(request.path)
+    print(property_id)
 
     the_property = storage.get_property_by_id(property_id)
     if not the_property:
         abort(404, description="Bad request: Property not found")
 
     the_property_images = storage.get_image(property_id)
+    print(the_property_images)
     property_dict = {}
     for image in the_property_images:
         property_dict[image.image_type] = image.image_url
@@ -30,27 +32,28 @@ def property_onclick(property_id):
     property_dict["listing_type"] = the_property.listing_type
     property_dict["id"] = property_id
     property_dict["property_owner"] = the_property.user_id
+    property_owner = storage.get_object(User, id=the_property.user_id)
+    owner_profile = property_owner.profile_image
+    first_name = the_property.user.first_name
+    last_name = the_property.user.last_name
+    property_owner_name = first_name + " " + last_name
+    owner_email = property_owner.email
     if current_user.is_authenticated:
         property_dict["current_user"] = current_user.id
-        first_name = the_property.user.first_name
-        last_name = the_property.user.last_name
-        property_owner_name = first_name + " " + last_name
-        property_owner = storage.get_object(User, id=the_property.user_id)
-        owner_profile = property_owner.profile_image
-        owner_email = property_owner.email
+    print(property_dict)
     return render_template("property.html",
                            property=property_dict,
                            window="property",
-                           owner_profile = owner_profile,
-                           owner_email = owner_email,
-                           property_owner_name = property_owner_name,
+                           owner_profile=owner_profile,
+                           owner_email=owner_email,
+                           property_owner_name=property_owner_name,
                            show_modal=show_modal)
 
 
 @app_views_property.route("/property_list")
 def property_list():
     """Lists properties with pagination"""
-    
+
     per_page = 15  # Number of properties per page
     property_type = request.args.get('type', None)
     if property_type not in ["Apartment", "Studio", "House", "Villa"]:
@@ -134,7 +137,7 @@ def page_generation():
     subcription = storage.get_object(Subcription)
     if subcription.status != 'Suspended':
         all_pro_sub_ids = []
-        all_subcribers = storage.get_object(Transaction, all=True) 
+        all_subcribers = storage.get_object(Transaction, all=True)
         for sub in all_subcribers:
             all_pro_sub_ids.append(sub.id)
 

@@ -30,7 +30,7 @@ git clone https://github.com/antoineleno/roofmarket.git
 *2. Change the working directory*
 
 ```bash
-cd roofmarket
+cd alx_finale_porfolio
 ``` 
 
 *3. Create a virtual environment*

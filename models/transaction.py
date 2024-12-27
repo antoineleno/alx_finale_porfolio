@@ -6,6 +6,7 @@ from sqlalchemy import Float, String, Column, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 import os
 
+
 class Transaction(BaseModel, Base):
     """Mapping class for transaction table"""
 
@@ -18,7 +19,6 @@ class Transaction(BaseModel, Base):
     user = relationship("User", back_populates="transactions")
 
     property1 = relationship("Property", back_populates="transaction")
-
 
 
 class Subcription(BaseModel, Base):

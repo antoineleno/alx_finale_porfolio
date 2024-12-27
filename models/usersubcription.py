@@ -7,5 +7,5 @@ from sqlalchemy.orm import relationship
 
 class UserSubcription(BaseModel, Base):
     """Subcription"""
-    __tablename__="usersubcription"
+    __tablename__ = "usersubcription"
     user_email = Column(String(60), nullable=False, unique=True)

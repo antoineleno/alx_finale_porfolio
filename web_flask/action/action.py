@@ -28,7 +28,7 @@ def upload_property():
 
     # Collecting basic property data
     new_property = Property()
-    new_property.user_id = current_user.id # current user
+    new_property.user_id = current_user.id
     new_property.title = request.form.get('title').title()
     new_property.description = request.form.get('description')
     new_property.property_type = request.form.get('propertyType')
@@ -83,7 +83,10 @@ def upload_property():
         new_image = Property_image()
 
         image_extension = os.path.splitext(main_image.filename)[1]
-        main_image_filename = secure_filename(f"{new_property.id}_Main_image{image_extension}")
+        main_image_filename = secure_filename(
+            f"{new_property.id}_Main_image{image_extension}"
+            )
+
         main_image_path = os.path.join(upload_folder, main_image_filename)
         main_image.save(main_image_path)
 
@@ -92,17 +95,19 @@ def upload_property():
         new_image.property_id = new_property.id
         new_image.save()
 
-    # Ensure additional_images and additional_descriptions have matching lengths
     if len(additional_images) == len(additional_descriptions):
         # Save each additional image with its description
         for i in range(len(additional_images)):
             image = additional_images[i]
             if image and image.filename:  # Ensure the image is not empty
-                #get the image extension
+                # get the image extension
                 image_extension = os.path.splitext(image.filename)[1]
                 description_safe = secure_filename(additional_descriptions[i])
-                image_filename = f"{new_property.id}_{description_safe}{image_extension}"
-                image_path = os.path.join(upload_folder, image_filename)
+                image_filename = (
+                    f"{new_property.id}_{description_safe}{image_extension}"
+                )
+                image_path = os.path.join(upload_folder,
+                                          image_filename)
                 image.save(image_path)
 
                 # Save the additional image data
@@ -120,44 +125,58 @@ def upload_property():
     for subcriber in all_subcribers:
         all_email.append(subcriber.user_email)
     if len(all_email) != 0:
-        property_url = "http://127.0.0.1:5000/property/description/{}".format(new_property.id)
+        property_url = "http://127.0.0.1:5000/property/description/{}".format(
+            new_property.id)
         for email in all_email:
-            send_email(email=email, html_file="subcription_email.html", property_link=property_url)
+            send_email(email=email,
+                       html_file="subcription_email.html",
+                       property_link=property_url)
     flash("Property added successfully!", 'success')
-    return redirect(url_for('app_view_action.my_properties', listing_type="featured"))
+    return redirect(url_for('app_view_action.my_properties',
+                            listing_type="featured"))
+
 
 @login_required
 @app_views_action.route('/my_properties/<listing_type>')
 def my_properties(listing_type):
     """View properties of current user(supplier)"""
+    if current_user.is_authenticated:
+        feature = ""
+        property_objs = None
+        if listing_type == "sell":
+            property_objs = storage.get_property_by_user_id(
+                current_user.id, "sell")
+            feature = "sell"
+        elif listing_type == "rent":
+            feature = "rent"
+            property_objs = storage.get_property_by_user_id(
+                current_user.id, "rent")
+        else:
+            property_objs = storage.get_property_by_user_id(current_user.id)
+            feature = "featured"
+        property_list = []
 
-    feature = ""
-    property_objs = None
-    if listing_type == "sell":
-        property_objs = storage.get_property_by_user_id(current_user.id, "sell")  #Current user
-        feature = "sell"
-    elif listing_type == "rent":
-        feature = "rent"
-        property_objs = storage.get_property_by_user_id(current_user.id, "rent")
+        for obj in property_objs:
+
+            Main_image_obj = storage.get_image(obj.id, "Main_image")
+
+            property_list.append({"id": obj.id, "title": obj.title,
+                                  "property_type": obj.property_type.title(),
+                                  "price": obj.price,
+                                  "listing_type": obj.listing_type,
+                                  "address": obj.address, "city": obj.city,
+                                  "country": obj.country,
+                                  "bedrooms": obj.bedrooms,
+                                  "bathrooms": obj.bathrooms, "area": obj.area,
+                                  "Main_image_url": Main_image_obj.image_url})
+
+        return render_template('my_properties.html',
+                               properties=property_list,
+                               feature=feature,
+                               window="action")
     else:
-        property_objs = storage.get_property_by_user_id(current_user.id)
-        feature ="featured"
-    property_list = []
-    
-    for obj in property_objs:
-    
-        Main_image_obj = storage.get_image(obj.id, "Main_image")
+        return render_template('404.html')
 
-        property_list.append({"id": obj.id, "title": obj.title, 
-                              "property_type": obj.property_type.title(), 
-                              "price": obj.price, "listing_type": obj.listing_type,
-                              "address": obj.address, "city": obj.city, 
-                              "country": obj.country, "bedrooms": obj.bedrooms, 
-                              "bathrooms": obj.bathrooms, "area": obj.area, 
-                              "Main_image_url": Main_image_obj.image_url})
-        print(len(property_list))
-
-    return render_template('my_properties.html', properties=property_list, feature=feature, window="action")
 
 @login_required
 @app_views_action.route("/delete_property/<property_id>")
@@ -171,11 +190,12 @@ def delete_property(property_id):
     try:
         # Loop through all files in the folder
         for filename in os.listdir(upload_folder):
-            if filename.startswith(property_id):  # Match files starting with the property_id
-                file_path = os.path.join(upload_folder, filename)  # Build the full file path
+            if filename.startswith(property_id):
+                file_path = os.path.join(upload_folder, filename)
                 os.remove(file_path)  # Delete the file
         flash("Property deleted successfully!", "success")
     except Exception as e:
         flash("Error occurred during deletion!", "error")
         print(f"An error occurred: {e}")
-    return redirect(url_for('app_view_action.my_properties', listing_type="featured"))
+    return redirect(url_for('app_view_action.my_properties',
+                            listing_type="featured"))
