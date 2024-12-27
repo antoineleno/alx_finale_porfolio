@@ -53,11 +53,15 @@ pip install -r requirements/requirements.txt
 ```bash
 sudo mysql -u root -p < requirements/database_setup.sql
 ```
+*7. Set up the trigger for subcription management*
+```bash
+sudo mysql -u root -p < requirements/subcription.sql
+```
 
-*7. Run the app*
+*8. Change the working directory and Run the app*
 
 ```bash
-python3 web_flask/app.py
+cd web_flask; python3 app.py
 ```
 
 🌟 You are all set!
