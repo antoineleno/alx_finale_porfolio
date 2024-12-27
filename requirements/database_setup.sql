@@ -7,7 +7,7 @@ GRANT ALL PRIVILEGES ON roofmarket_db.* TO 'roofmarket_user'@'localhost';
 FLUSH PRIVILEGES;
 
 
-
+use roofmarket_db;
 -- MySQL dump 10.13  Distrib 8.0.40, for Linux (x86_64)
 --
 -- Host: localhost    Database: roofmarket_db
