@@ -24,7 +24,7 @@ Enhances the property browsing experience with dynamic, visually appealing layou
 *1. Clone the repository*
 
 ```bash
-git clone https://github.com/antoineleno/roofmarket.git
+git clone https://github.com/antoineleno/alx_finale_porfolio.git
 ```
 
 *2. Change the working directory*
@@ -68,10 +68,15 @@ cd web_flask; python3 app.py
 
 
 ## 📘  *How to use this project*
-*After completing the installation steps, an admin user will be created with the following credentials :*
+*After completing the installation steps, an admin, supplier and client user will be created with the following credentials :*
 > - ***email***&nbsp;: *rmarketadmin@gmail.com*
 > - ***password*** : *roofmarketpassword*
 
+> - ***email***&nbsp;: *supplier@gmail.com*
+> - ***password*** : *supplierpassword*
+
+> - ***email***&nbsp;: *client@gmail.com*
+> - ***password*** : *clientpassword*
 
 ## 👯 *3. Code Contributors*
 
