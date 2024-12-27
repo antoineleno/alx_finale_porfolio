@@ -8,12 +8,14 @@ import os
 from werkzeug.utils import secure_filename
 from flask import current_app
 from models.property import Property
+from models.usersubcription import UserSubcription
 from models.property_image import Property_image
 from flask_login import login_required, current_user
 from models.user import User
 from models import storage
 from PIL import Image
 import PIL
+from auth import send_email
 
 
 @login_required
@@ -113,7 +115,14 @@ def upload_property():
         # Handle mismatch between image and description counts if necessary
         flash("Mismatch between additional images and descriptions!", 'error')
         return redirect(url_for('app_view_home.home'))
-
+    all_subcribers = storage.get_object(UserSubcription, all=True)
+    all_email = []
+    for subcriber in all_subcribers:
+        all_email.append(subcriber.user_email)
+    if len(all_email) != 0:
+        property_url = "http://127.0.0.1:5000/property/description/{}".format(new_property.id)
+        for email in all_email:
+            send_email(email=email, html_file="subcription_email.html", property_link=property_url)
     flash("Property added successfully!", 'success')
     return redirect(url_for('app_view_action.my_properties', listing_type="featured"))
 
@@ -140,7 +149,7 @@ def my_properties(listing_type):
         Main_image_obj = storage.get_image(obj.id, "Main_image")
 
         property_list.append({"id": obj.id, "title": obj.title, 
-                              "property_type": obj.property_type, 
+                              "property_type": obj.property_type.title(), 
                               "price": obj.price, "listing_type": obj.listing_type,
                               "address": obj.address, "city": obj.city, 
                               "country": obj.country, "bedrooms": obj.bedrooms, 

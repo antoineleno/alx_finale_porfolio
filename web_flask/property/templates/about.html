@@ -1,6 +1,5 @@
 <!-- About Page-->
 
-
 {% extends "base.html" %}
 
 {% block title %}My Wishlist{% endblock %}
@@ -8,25 +7,26 @@
 {% block content %}
 
     
-        <!-- Header Start -->
-        <div class="container-fluid header bg-white p-0">
-            <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
-                <div class="col-md-6 p-5 mt-lg-5">
-                    <h1 class="display-5 animated fadeIn mb-4">About Us</h1> 
-                        <nav aria-label="breadcrumb animated fadeIn">
-                        <ol class="breadcrumb text-uppercase">
-                            <li class="breadcrumb-item"><a href="{{ url_for('app_view_home.home') }}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{ url_for('app_view_property.about') }}">About</a></li>
-                            <li class="breadcrumb-item text-body active" aria-current="page">About Us</li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-md-6 animated fadeIn">
-                    <img class="img-fluid" src="{{ url_for('app_views_auth.static', filename='img/advertisements/' + image_filenames[2]) }}" alt="">
-                </div>
-            </div>
+<!-- Header Start -->
+<div class="container-fluid header bg-white p-0">
+    <div class="row g-0 align-items-center">
+        <div class="col-md-6 p-5 mt-lg-5">
+            <h1 class="display-5 animated fadeIn mb-4">About Us</h1> 
+            <nav aria-label="breadcrumb animated fadeIn">
+                <ol class="breadcrumb text-uppercase">
+                    <li class="breadcrumb-item"><a href="{{ url_for('app_view_home.home') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('app_view_property.about') }}">About</a></li>
+                    <li class="breadcrumb-item text-body active" aria-current="page">About Us</li>
+                </ol>
+            </nav>
         </div>
-        <!-- Header End -->
+        <div class="col-md-6 animated fadeIn text-end ms-auto">
+            <img class="img-fluid" src="{{ url_for('app_views_auth.static', filename='img/advertisements/' + image_filenames[2]) }}" alt="">
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
 
         <!-- bar Start -->
         <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 5px;"></div>

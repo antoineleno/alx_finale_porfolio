@@ -118,7 +118,8 @@ def forget_password():
             new_password = generate_password()
             user.password = new_password
             storage.save()
-            send_email(email, new_password)
+
+            send_email(email=email, html_file="email.html", new_password=new_password, property_link=None)
             message = """A password reset message has been
             sent to your email address.
             """
@@ -179,10 +180,10 @@ def get_messages():
             content['room_id'] = room_id
             content['contact_name'] = contact_name
             content['contact_image_url'] = (
-                "../auth/static/img/"
+                "/auth/static/img/"
                 + contact_image_url
             )
-
+            
             if latest_message:
                 content['latest_message'] = (
                     latest_message.message[:35] + "..."
@@ -204,46 +205,60 @@ def get_messages():
 @app_views_auth.route('/new_conversation', methods=['GET', 'POST'])
 def new_conversation():
     """Create a new room for a user"""
-    if request.method == "POST":
-        show_modal = "yes"
+    property_id = request.form.get('property_id')
+    if current_user.is_authenticated:
+        message_property = storage.get_object(Property, id=property_id)
+        property_owner_id = message_property.user_id
+        if property_owner_id != current_user.id :
+            if request.method == "POST":
+                show_modal = "yes"
 
-        current_user_id = request.form.get('current_user_id')
-        receiver_id = request.form.get('receiver_id')
-        property_id = request.form.get('property_id')
-        room_checking_1 = storage.get_object(RoomParticipants,
-                                             user_id=current_user_id,
-                                             property_id=property_id)
-        room_checking_2 = storage.get_object(RoomParticipants,
-                                             user_id=receiver_id,
-                                             property_id=property_id)
-        if room_checking_1 is not None and room_checking_2 is not None:
-            s = room_checking_1.room_id == room_checking_2.room_id
-            if room_checking_1 and room_checking_2 and s:
-                room_checking_1.updated_at = datetime.datetime.utcnow()
-                room_checking_2.updated_at = datetime.datetime.utcnow()
-                room_checking_1.save()
-                room_checking_2.save()
-                return redirect(url_for('app_view_property.property_onclick',
-                                        property_id=property_id,
-                                        show_modal=show_modal))
+                current_user_id = request.form.get('current_user_id')
+                receiver_id = request.form.get('receiver_id')
+                room_checking_1 = storage.get_object(RoomParticipants,
+                                                    user_id=current_user_id,
+                                                    property_id=property_id)
+                room_checking_2 = storage.get_object(RoomParticipants,
+                                                    user_id=receiver_id,
+                                                    property_id=property_id)
+                if room_checking_1 is not None and room_checking_2 is not None:
+                    s = room_checking_1.room_id == room_checking_2.room_id
+                    if room_checking_1 and room_checking_2 and s:
+                        room_checking_1.updated_at = datetime.datetime.utcnow()
+                        room_checking_2.updated_at = datetime.datetime.utcnow()
+                        room_checking_1.save()
+                        room_checking_2.save()
+                        return redirect(url_for('app_view_property.property_onclick',
+                                                property_id=property_id,
+                                                show_modal=show_modal))
+                else:
+                    new_room = Room()
+                    first_room_participant = RoomParticipants(user_id=current_user_id,
+                                                            property_id=property_id,
+                                                            room_id=new_room.id)
+                    second_room_participant = RoomParticipants(user_id=receiver_id,
+                                                            property_id=property_id,
+                                                            room_id=new_room.id)
+                    new_room.save()
+                    first_room_participant.save()
+                    second_room_participant.save()
+                    message = Message(user_id=current_user_id,
+                                    room_id=new_room.id,
+                                    message="New conversation opened!")
+                    message.save()
+                    update_online_status(False)
+                    return redirect(url_for('app_view_property.property_onclick', show_modal=show_modal,
+                                            property_id=property_id))
         else:
-            new_room = Room()
-            first_room_participant = RoomParticipants(user_id=current_user_id,
-                                                      property_id=property_id,
-                                                      room_id=new_room.id)
-            second_room_participant = RoomParticipants(user_id=receiver_id,
-                                                       property_id=property_id,
-                                                       room_id=new_room.id)
-            new_room.save()
-            first_room_participant.save()
-            second_room_participant.save()
-            message = Message(user_id=current_user_id,
-                              room_id=new_room.id,
-                              message="New conversation opened!")
-            message.save()
-            update_online_status(False)
+            message = """You are the owner of this property. You can't contact yourself."""
+            flash(message, "error")
             return redirect(url_for('app_view_property.property_onclick',
                                     property_id=property_id))
+    else:
+       message = """You need to log in before contacting the listing agent!"""
+       flash(message, "error")
+       return redirect(url_for('app_view_property.property_onclick', property_id=property_id))
+
 
 
 @app_views_auth.route('/messages/<room_id>', methods=['GET'])
@@ -336,7 +351,7 @@ def user_subription():
         if request.method == "POST":
             subscription_action = request.form.get('subscription_action')
             if subscription_action == 'subscribe':
-                new_subription = UserSubcription(user_id=current_user.id)
+                new_subription = UserSubcription(user_email=current_user.email)
                 new_subription.save()
                 message = """Successfully subscribed! You will
                 receive updates whenever a new property is listed."""
@@ -344,7 +359,7 @@ def user_subription():
                 return redirect(url_for('app_view_home.home'))
             else:
                 user_subription = storage.get_object(UserSubcription,
-                                                     user_id=current_user.id)
+                                                     user_email=current_user.email)
                 user_subription.delete()
                 storage.save()
                 message = """You have successfully unsubscribed.
@@ -384,12 +399,20 @@ def profile():
                 user.user_type = user_type
             email = request.form.get('email')
             user.email = email
-            file = request.files.get('profile_pic')
-            if file:
-                _, file_extension = os.path.splitext(file.filename)
+            profile_file = request.files.get('profile_pic')
+            if profile_file:
+                _, file_extension = os.path.splitext(profile_file.filename)
                 user_id = current_user.id
                 filename = secure_filename(f"{user_id}{file_extension}")
-                file.save(os.path.join('auth', 'static', 'img',
+                image_dirtory = 'auth/static/img'
+                for file in os.listdir(image_dirtory):
+                    img = (file.startswith(user_id) and
+                            file != f"{user_id}"
+                            f"{filename}")
+                    if img:
+                        os.remove(os.path.join(
+                            image_dirtory, file))
+                profile_file.save(os.path.join('auth', 'static', 'img',
                                        filename))
                 user.profile_image = filename
             old_password = request.form.get('old_password')
@@ -809,20 +832,32 @@ def delete_agent_image(agent_id):
         return jsonify({'success': 'Image deleted successfully'}), 200
 
 
-def send_email(receiver_email, new_password):
+def send_email(**kwars):
     """Send a password reset email to a user
     using an external HTML template.
     """
+    receiver_email = kwars.get('email')
+    print(kwars)
+    html_file = kwars.get('html_file')
+    new_password= kwars.get('new_password')
+    property_link= kwars.get('property_link')
+
     email = "lenomadeleineantoine@gmail.com"
     subject = "Password Reset Request - Roofmarket"
+    if new_password == None:
+        subject = "🏠 New Property Just Listed – Don’t Miss Out!"
+    
 
     current_year = datetime.datetime.now().year
 
-    with open("auth/templates/email.html") as f:
+    with open("auth/templates/{}".format(html_file)) as f:
         html_content = f.read()
 
     html_content = html_content.replace("{{ email }}", receiver_email)
-    html_content = html_content.replace("{{ password }}", new_password)
+    if new_password != None:
+        html_content = html_content.replace("{{ password }}", new_password)
+    else:
+        html_content = html_content.replace("{{ property_link }}", str(property_link))
     html_content = html_content.replace("{{ current_year }}",
                                         str(current_year))
 

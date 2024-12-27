@@ -85,7 +85,7 @@ def inject_user():
     if current_user.is_authenticated:
         user_id = current_user.id
         user_subscription = storage.get_object(
-            UserSubcription, user_id=current_user.id)
+            UserSubcription, user_email=current_user.email)
         is_subscribed = True if user_subscription is not None else False
         user = storage.get_object(User, id=user_id)
         all_user_room = user.roomparticipants
@@ -95,12 +95,13 @@ def inject_user():
 
         for u_room_id in all_ids:
             message_count = storage.get_object(
-                cls=Message,
+                Message,
                 count=True,
                 room_id=u_room_id,
-                user_id=user_id,
-                read_status=False
-                )
+                read_status=False,
+                user_id=('!=', current_user.id)  # Pass operator as a tuple
+            )
+
             unread_message += message_count
 
     profile_path = "user.avif"

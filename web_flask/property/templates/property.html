@@ -9,9 +9,11 @@
     <div class="container-fluid header bg-white p-0">
         <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
             <div class="col-md-6 p-5 mt-lg-5">
+                <br>
+                <br>
                 <h1 class="display-5 animated fadeIn mb-4">{{ property.title }}</h1>
                 <h2 class="text-primary mb-4">
-                    ${{ property.price }} {% if property.listing_type == "rent" %} <sub style="color: green; font-size: 0.8rem;">/month</sub> {% endif %}
+                    GNF {{ property.price }} {% if property.listing_type == "rent" %} <sub style="color: green; font-size: 0.8rem;">/month</sub> {% endif %}
                 </h2> <!-- Price of the property -->
                 <a href="{{url_for('app_views_wishlist.add_to_wishlist', property_id=property.id)}}">
                     <button class="btn btn-outline-primary mb-3">
@@ -20,7 +22,7 @@
                 </a>
                 
             </div>
-            <div class="col-md-6 animated fadeIn">
+            <div class="col-md-6 animated fadeIn text-end ms-auto">
                 <img class="img-fluid" src="../../{{ property.Main_image }}" alt="">
             </div>
         </div>
@@ -144,17 +146,18 @@
     <!-- Property List End -->
 
     <!-- Call to Action Start -->
+     
     <div class="container-xxl py-5">
         <div class="container">
             <div class="bg-light rounded p-3">
                 <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
                     <div class="row g-5 align-items-center">
-                        <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                            <img class="img-fluid rounded w-100" src="{{ url_for('app_view_property.static', filename='img/call-to-action.jpg') }}" alt="">
-                        </div>
+                        <div class="col-lg-4 col-md-5 wow fadeIn mx-auto" data-wow-delay="0.1s">
+                            <img class="img-fluid rounded custom-img" src="{{ url_for('.static', filename='img/' + owner_profile) }}" alt="">
+                        </div>                        
                         <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                             <div class="mb-4">
-                                <h1 class="mb-3">Antoine LENO</h1>
+                                <h1 class="mb-3">{{ property_owner_name }}</h1>
                                 <p>Get in touch with the listing agent for the house.</p>
                             </div>
                             <div class="d-flex justify-content-center align-items-center">
@@ -169,11 +172,9 @@
                                 </form>
                                 
                                 <!-- Get Appointment Button -->
-                                <form action="/get-appointment" method="POST">
-                                    <button type="submit" class="btn btn-dark py-1 px-2" aria-label="Get an appointment">
-                                        <i class="fa fa-calendar-alt me-1"></i>Get Appointment
-                                    </button>
-                                </form>
+                                <a href="mailto:{{ owner_email }}?subject=Appointment Request&body=I would like to schedule an appointment." class="btn btn-dark py-1 px-2" aria-label="Get an appointment">
+                                    <i class="fa fa-calendar-alt me-1"></i>Get Appointment
+                                </a> 
                             </div>
                                                            
                         </div>

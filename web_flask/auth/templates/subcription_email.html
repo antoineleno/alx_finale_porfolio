@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Property Available!</title>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      font-family: 'Raleway', sans-serif;
+      color: #333;
+    }
+    .container {
+      width: 100%;
+      max-width: 650px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background-color: #007BFF;
+      color: #ffffff;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .header h1 {
+      font-size: 28px;
+      margin: 0;
+    }
+    .content {
+      padding: 30px 20px;
+      line-height: 1.8;
+      color: #555;
+    }
+    .content p {
+      margin-bottom: 20px;
+    }
+    .cta-button {
+      display: inline-block;
+      background-color: #007BFF;
+      color: #ffffff;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    .footer {
+      background-color: #333;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+    }
+    .footer p {
+      margin: 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>New Property Alert!</h1>
+      <p>Your next dream home is just a click away.</p>
+    </div>
+    <div class="content">
+      <p><strong>Hello,</strong></p>
+      <p>We are thrilled to announce a brand new property that has just been added to RoofMarket. This could be the perfect fit for you!</p>
+      <p>Don't miss out on this opportunity. Click below to view the property details and schedule a visit.</p>
+      <a href="{{ property_link }}" class="cta-button">View Property</a>
+      <p>If you have any questions, feel free to reach out to our support team.</p>
+    </div>
+    <div class="footer">
+      <p>&copy; {{ current_year }} RoofMarket | Your Trusted Real Estate Partner</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -149,10 +149,16 @@ class DBStorage:
 
         if kwargs:
             for key, value in kwargs.items():
-                if sign in operators:
-                    query = query.filter(operators[sign](getattr(cls, key), value))
+                if isinstance(value, tuple):
+                    operator, val = value
                 else:
-                    raise ValueError(f"Invalid comparison operator: {sign}")
+                    operator, val = sign, value
+
+                if operator in operators:
+                    query = query.filter(operators[operator](getattr(cls, key), val))
+                else:
+                    raise ValueError(f"Invalid comparison operator: {operator}")
+
         
         if distinct:
             query = query.distinct()

@@ -46,12 +46,12 @@
                     <div class="modal-body">
                         <label for="priceRange" class="form-label">Price Range:</label>
                         <div class="d-flex justify-content-between">
-                            <span id="minPriceDisplay">GNF 0</span>
-                            <span id="maxPriceDisplay">GNF 1000+</span>
+                            <span id="minPriceDisplay">GNF0</span>
+                            <span id="maxPriceDisplay">GNF1000+</span>
                         </div>
                         <div class="range-slider mt-3">
-                            <input type="range" class="form-range" min="0" max="100000000" step="50" id="minPrice" value="100">
-                            <input type="range" class="form-range" min="0" max="100000000" step="50" id="maxPrice" value="900">
+                            <input type="range" class="form-range" min="0" max="100000000000" step="50" id="minPrice" value="100">
+                            <input type="range" class="form-range" min="0" max="100000000000" step="50" id="maxPrice" value="900">
                         </div>
                         <div class="text-center mt-2">
                             <span id="selectedRange">Selected: GNF 100 - GNF 900</span>
@@ -71,7 +71,6 @@
           </div>
     </div>
     <!-- Search End -->
-
 
     <!-- Property List Start -->
     <div class="container-xxl py-5">
@@ -100,10 +99,6 @@
             <div class="tab-content">
                 <div id="tab-1" class="tab-pane fade show p-0 active">
                     <div class="row g-4" id="properties-container">
-                       
-                       
-                        
-                        
                     </div>
                 </div>
             </div>
@@ -144,7 +139,7 @@
                                         <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">${property.property_type}</div>
                                     </div>
                                     <div class="p-4 pb-0">
-                                        <h5 class="text-primary mb-3">$${property.price}</h5>
+                                        <h5 class="text-primary mb-3">GNF ${property.price}</h5>
                                         <span class="d-block h5 mb-2">${property.title} For ${property.listing_type}</span>
                                         <p><i class="fa fa-map-marker-alt text-primary me-2"></i>${property.address}, ${property.city}, ${property.country}</p>
                                     </div>
@@ -184,13 +179,6 @@
         // Load the initial page of properties when the page loads
         loadProperties(currentPage);
     </script>
-    
-
-
-    <!-- Property List End -->
-
-
-    <!-- Search -->
 <script>
     document.getElementById('country_search').addEventListener('change', async function() {
         const country = this.value;  // Get the selected country
@@ -214,8 +202,6 @@
         }
     });
     </script>
-
-    
     <script>
         const search_bric = document.getElementById("search_bric");
         const search_bric_btn = document.getElementById("search_bric_btn");
@@ -245,10 +231,8 @@
                 //search_bric.classList.remove("disabled-link"); // Remove disabled styling if previously applied
             }
         }
-    
         // Add the event listener for mouseover
         search_bric_btn.addEventListener("mouseover", updateSearchLink);
     </script>
-
 {% endblock %}
 

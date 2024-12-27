@@ -63,7 +63,7 @@ def home():
         Main_image_obj = storage.get_image(obj.id, "Main_image")
 
         property_list.append({"id": obj.id, "title": obj.title,
-                              "property_type": obj.property_type,
+                              "property_type": obj.property_type.title(),
                               "price": obj.price,
                               "listing_type": obj.listing_type,
                               "address": obj.address, "city": obj.city,

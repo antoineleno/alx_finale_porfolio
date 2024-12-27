@@ -66,7 +66,7 @@
                                 <a href="{{ url_for('app_view_property.property_agents') }}" class="dropdown-item {% if window2 == 'agent' %} active {% endif %}">Property Agent</a>
                             </div>
                         </div>
-                        {% if  user.is_authenticated %}
+                        {% if  user.is_authenticated and user.user_type == 'Supplier' %}
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle {% if window == 'action' %} active {% endif %}" data-bs-toggle="dropdown">Action</a>
                             <div class="dropdown-menu rounded-0 m-0">

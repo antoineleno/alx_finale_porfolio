@@ -36,9 +36,7 @@ class User(BaseModel, Base, UserMixin):
     reviews = relationship("Review", back_populates="user",
                            cascade="all, delete-orphan")
     roomparticipants = relationship("RoomParticipants", back_populates="user")
-    subscriptions = relationship(
-        "UserSubcription", back_populates="user", cascade="all, delete-orphan"
-    )
+
 
 
     @property

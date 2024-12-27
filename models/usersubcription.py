@@ -8,5 +8,4 @@ from sqlalchemy.orm import relationship
 class UserSubcription(BaseModel, Base):
     """Subcription"""
     __tablename__="usersubcription"
-    user_id = Column(String(60), ForeignKey("user.id"), nullable=False, unique=True)
-    user = relationship("User", back_populates="subscriptions")
+    user_email = Column(String(60), nullable=False, unique=True)

@@ -87,6 +87,7 @@ def find_image_path(image_id):  # NO need
                           methods=['DELETE'])
 def delete_property(property_id):
     """Property deletion"""
+    print("Antoine LENO")
     wishlist_property = storage.get_object(Whishlist, property_id=property_id)
     storage.delete(wishlist_property)
     storage.save()
@@ -97,13 +98,19 @@ def delete_property(property_id):
 @app_views_wishlist.route('/add_to_wishlist/<property_id>')
 def add_to_wishlist(property_id):
     """ Add a property to the wishlist"""
-    new_record = Whishlist()
-    new_record.user_id = current_user.id #Current User
-    inside =  any(property_id in item for item in storage.all_wishlist_for_user(current_user.id))
-    if not inside:
-        new_record.property_id = property_id
-        new_record.save()
-        flash("Property successfully added to wishlist!", "success")
+    if current_user.is_authenticated:
+        new_record = Whishlist()
+        new_record.user_id = current_user.id #Current User
+        inside =  any(property_id in item for item in storage.all_wishlist_for_user(current_user.id))
+        if not inside:
+            new_record.property_id = property_id
+            new_record.save()
+            flash("Property successfully added to wishlist!", "success")
+        else:
+            flash("Property already in wishlist!", "error")
+        return redirect(url_for('app_view_property.property_onclick', property_id=property_id))
     else:
-        flash("Property already in wishlist!", "error")
-    return redirect(url_for('app_view_property.property_onclick', property_id=property_id))
+        message = """You need to log in before adding a property to your wishlist."""
+        flash(message, "error")
+        return redirect(url_for('app_view_property.property_onclick',
+                                    property_id=property_id))

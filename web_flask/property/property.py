@@ -5,6 +5,7 @@ from property import app_views_property
 from flask import render_template, abort, request, jsonify
 from models import storage
 from models.property import Property
+from models.user import User
 from flask_login import current_user
 
 
@@ -13,6 +14,7 @@ def property_onclick(property_id):
     """When property clicked"""
     show_modal = request.args.get('show_modal')
     print(request.path)
+
     the_property = storage.get_property_by_id(property_id)
     if not the_property:
         abort(404, description="Bad request: Property not found")
@@ -27,19 +29,28 @@ def property_onclick(property_id):
     property_dict["listing_type"] = the_property.listing_type
     property_dict["id"] = property_id
     property_dict["property_owner"] = the_property.user_id
-    property_dict["current_user"] = current_user.id
-
+    if current_user.is_authenticated:
+        property_dict["current_user"] = current_user.id
+        first_name = the_property.user.first_name
+        last_name = the_property.user.last_name
+        property_owner_name = first_name + " " + last_name
+        property_owner = storage.get_object(User, id=the_property.user_id)
+        owner_profile = property_owner.profile_image
+        owner_email = property_owner.email
     return render_template("property.html",
                            property=property_dict,
                            window="property",
+                           owner_profile = owner_profile,
+                           owner_email = owner_email,
+                           property_owner_name = property_owner_name,
                            show_modal=show_modal)
 
 
 @app_views_property.route("/property_list")
 def property_list():
     """Lists properties with pagination"""
-
-    per_page = 3  # Number of properties per page
+    
+    per_page = 15  # Number of properties per page
     property_type = request.args.get('type', None)
     if property_type not in ["Apartment", "Studio", "House", "Villa"]:
         property_type = None
@@ -127,7 +138,7 @@ def page_generation():
         property_list.append({
             "id": obj.id,
             "title": obj.title,
-            "property_type": obj.property_type,
+            "property_type": obj.property_type.title(),
             "price": obj.price,
             "listing_type": obj.listing_type,
             "address": obj.address,
@@ -146,10 +157,11 @@ def page_generation():
 def property_types():
     """Property types"""
 
-    Number_per_type = {"apartment": storage.count(Property, "apartment"),
-                       "villa": storage.count(Property, "villa"),
-                       "studio": storage.count(Property, "studio"),
-                       "house": storage.count(Property, "house")}
+    Number_per_type = {"Apartment": storage.count(Property, "Apartment"),
+                       "Villa": storage.count(Property, "Villa"),
+                       "Studio": storage.count(Property, "Studio"),
+                       "House": storage.count(Property, "House")}
+    print(Number_per_type)
     return render_template('property-type.html',
                            Number_per_type=Number_per_type,
                            window="property", window2="type")
