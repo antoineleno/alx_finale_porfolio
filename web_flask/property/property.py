@@ -56,6 +56,7 @@ def property_list():
 
     per_page = 15  # Number of properties per page
     property_type = request.args.get('type', None)
+
     if property_type not in ["Apartment", "Studio", "House", "Villa"]:
         property_type = None
     country = request.args.get('country', None)
@@ -108,10 +109,13 @@ def page_generation():
     page = int(request.args.get('page', 1))
     offset = (page - 1) * per_page
     property_type = request.args.get('property_type', None)
+
     country = request.args.get('country', None)
     city = request.args.get('city', None)
+
     max_price = request.args.get('max_price', None)
     min_price = request.args.get('min_price', None)
+
     feature = request.args.get('feature', None)
     if country == 'None':
         country = None

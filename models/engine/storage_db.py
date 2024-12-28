@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models.agent import Agent
-from models.user import User, UserSubcription
+from models.user import User
 from models.usersubcription import UserSubcription
 from models.property import Property
 from models.transaction import Transaction, Subcription
@@ -135,7 +135,8 @@ class DBStorage:
         if sign is None:
             sign = '=='
             if cls in [User, Agent, Property, Transaction, Subcription,
-                       Whishlist, Message, Room, RoomParticipants]:
+                       Whishlist, Message, Room,
+                       RoomParticipants, UserSubcription]:
                 query = self.__session.query(cls)
 
         operators = {
@@ -197,6 +198,7 @@ class DBStorage:
             if country and city and max_price and min_price:
                 a = self.__session.query(Property).filter(
                     Property.property_type == property_type,
+                    Property.city == city,
                     Property.country == country,
                     Property.price <= max_price,
                     Property.price >= min_price).limit(per_page).offset(offset)
@@ -223,6 +225,7 @@ class DBStorage:
             if country and city and max_price and min_price:
                 return self.__session.query(classe).filter(
                     classe.property_type == property_type,
+                    classe.city == city,
                     classe.country == country, classe.price <= max_price,
                     classe.price >= min_price).count()
             return self.__session.query(classe).filter(
