@@ -82,8 +82,8 @@ cd web_flask; python3 app.py
 
 <p align="center">
   <a href="https://github.com/antoineleno/final_porfolio/graphs/contributors">
-    <img src="web_flask/auth/static/img/leno.png" alt="Profile Picture" style="width: 145px; height: 145px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
-    <img src="web_flask/auth/static/img/bah.png" alt="Profile Picture" style="width: 145px; height: 145px; border-radius: 50%; object-fit: cover;">
+    <img src="web_flask/auth/static/img/leno.png" alt="Profile Picture" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
+    <img src="web_flask/auth/static/img/bah.png" alt="Profile Picture" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover;">
   </a>
 </p>
 
