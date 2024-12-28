@@ -40,7 +40,7 @@ def property_onclick(property_id):
     owner_email = property_owner.email
     if current_user.is_authenticated:
         property_dict["current_user"] = current_user.id
-    print(property_dict)
+
     return render_template("property.html",
                            property=property_dict,
                            window="property",
