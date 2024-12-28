@@ -130,7 +130,7 @@ cd web_flask; python3 app.py
 ## ✅ *7. Tests*
 *Run the following command from the root of the project directory to execute all tests and verify the software functionality :*
 ```bash
-ROOFMARKET_ENV=test python3 -m unittest discover tests
+python3 -m unittest discover tests
 ```
 
 ## 🏅 *8. Badge*
