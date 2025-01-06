@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Property Available | RoofMarket</title>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+      font-family: 'Raleway', sans-serif;
+      color: #333;
+    }
+    .container {
+      max-width: 650px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background-color: #004085;
+      color: #ffffff;
+      text-align: center;
+      padding: 50px 30px;
+    }
+    .header h1 {
+      font-size: 34px;
+      margin: 0;
+      font-weight: 700;
+    }
+    .header p {
+      margin: 10px 0 0;
+      font-size: 18px;
+      opacity: 0.9;
+    }
+    .content {
+      padding: 40px 30px;
+      line-height: 1.8;
+      color: #444;
+    }
+    .content p {
+      margin-bottom: 24px;
+      font-size: 16px;
+    }
+    .cta-button {
+      display: inline-block;
+      background-color: #28a745;
+      color: #ffffff;
+      padding: 18px 35px;
+      font-size: 18px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .cta-button:hover {
+      background-color: #218838;
+    }
+    .footer {
+      background-color: #333;
+      color: #ffffff;
+      text-align: center;
+      padding: 25px;
+      font-size: 14px;
+    }
+    .footer p {
+      margin: 5px 0;
+      opacity: 0.8;
+    }
+    .property-info {
+      background-color: #f8f9fa;
+      padding: 30px;
+      text-align: center;
+      border-top: 1px solid #ddd;
+    }
+    .property-info h2 {
+      margin: 0 0 15px;
+      font-size: 22px;
+      color: #004085;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Discover Your Next Dream Home</h1>
+      <p>A new property that matches your preferences is now available!</p>
+    </div>
+    
+    <div class="content">
+      <p><strong>Hello,</strong></p>
+      <p>We are excited to introduce a newly listed property on RoofMarket that might catch your interest. This property stands out and could be exactly what you're looking for.</p>
+      
+      <div class="property-info">
+        <h2>{{ property_name }}</h2>
+        <p>Click below to explore the details and book a tour today!</p>
+        <a href="{{ property_link }}" class="cta-button">View Property</a>
+      </div>
+      
+      <p>If you have any questions or need further assistance, our support team is here to help. We look forward to helping you find the perfect home!</p>
+    </div>
+    
+    <div class="footer">
+      <p>&copy; {{ current_year }} RoofMarket | Empowering Your Real Estate Journey</p>
+      <p>You received this email because you subscribed to RoofMarket updates.</p>
+    </div>
+  </div>
+</body>
+</html>
