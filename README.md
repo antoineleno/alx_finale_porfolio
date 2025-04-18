@@ -107,6 +107,13 @@ cd web_flask; python3 app.py
   </a>
 </p>
 
+## 🎯 *Roles and Contributions*
+
+| **Contributor**           | **Role**                  | **Contributions** |
+|---------------------------|---------------------------|-------------------|
+| **Antoine Leno**          | Backend Developer          | Full backend development (Flask, MySQL), database handling, and logic implementation. |
+| **Amadou Bah**      | Frontend Developer         | Front-end development (HTML, CSS, Bootstrap), template integration, UI customization, and JavaScript interactivity. <br> &nbsp;&nbsp;• Developed admin dashboard for managing programs, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;courses, resources, projects, and quizzes. <br> &nbsp;&nbsp;• Built program synopsis page displaying all related courses, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resources, projects, and quizzes. <br> &nbsp;&nbsp;• Developed course content pages with access to resources, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;projects, and quizzes. |
+
 ## 🙇 *4. Special Thanks to*
 
 - [*ALX Software Engineering*](https://www.alxafrica.com/where-did-the-alx-software-engineering-programme-go/)  *for providing us with an incredible training experience.*
