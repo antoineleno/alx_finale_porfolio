@@ -112,7 +112,7 @@ cd web_flask; python3 app.py
 | **Contributor**           | **Role**                  | **Contributions** |
 |---------------------------|---------------------------|-------------------|
 | **Antoine Leno**          | Backend Developer          | Full backend development (Flask, MySQL), database handling, and logic implementation. |
-| **Antoine LENO**      | Backend Developer         | Front-end development (HTML, CSS, Bootstrap), template integration, UI customization, and JavaScript interactivity. <br> &nbsp;&nbsp;• Created user profile management for updating personal info and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewing property subscriptions.<br> &nbsp;&nbsp;•  Implemented subscription payment functionality, allowing users to securely pay for property subscriptions.<br> &nbsp;&nbsp;• Developed course content pages with access to resources, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;projects, and quizzes. |
+| **Antoine LENO**      | Backend Developer         | Front-end development (HTML, CSS, Bootstrap), template integration, UI customization, and JavaScript interactivity. <br> &nbsp;&nbsp;• Created user profile management for updating personal info and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewing property subscriptions.<br> &nbsp;&nbsp;•  Implemented subscription payment functionality, allowing users to <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;securely pay for property subscriptions.<br> &nbsp;&nbsp;• Developed course content pages with access to resources, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;projects, and quizzes. |
 
 ## 🙇 *4. Special Thanks to*
 
