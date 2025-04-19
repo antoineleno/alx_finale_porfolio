@@ -125,7 +125,7 @@ cd web_flask; python3 app.py
 ## 🚀 *5. Demo*
 
 <p align="center">
-  <a href="https://drive.google.com/file/d/1RkzRGhudukNSONkjQd3XtFR3byQZUXNR/view?usp=sharing" target="blank">
+  <a href="https://youtu.be/y6Zy2TKRKfA?si=f8gd-rbLxdsMEwVi" target="blank">
     <img src="https://img.shields.io/website?url=https%3A%2F%2Fyour-video-link-here.com&logo=youtube&style=flat-square" alt="Demo Video" />
   </a>
 </p>
